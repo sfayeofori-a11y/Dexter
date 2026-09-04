@@ -1,0 +1,39 @@
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 10px;
+}
+
+.active {
+  background-color: var(--active-fill);
+}
+
+[data-screen] {
+  display: none;
+}
+
+[data-screen].show {
+  display: flex;
+}
+
+[data-ani="slide-in"] {
+  transform: translateX(100%);
+  transition: transform 0.5s ease 0s;
+}
+
+[data-ani="ask"] {
+  opacity: 0;
+  transition: opacity 0.3s ease 0s;
+}
+
+.no-scroll {
+  overflow: hidden;
+}

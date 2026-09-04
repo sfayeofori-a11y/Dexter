@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Env / secrets
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Runtime data / secrets store — never belongs in this repo
+hermes-data/
+**/hermes-data/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Claude / local session artifacts
+.claude/

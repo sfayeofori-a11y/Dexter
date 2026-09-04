@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Prosto One is a one-off — only this page's "Dexter" wordmark uses it
+       (see .login-wordmark), per the Figma reference's own font spec.
+       Kantumruy Pro / Nunito Sans (everything else on this page) are
+       already loaded as local @font-face files in the main stylesheet, so
+       they don't need a Google Fonts link here. -->
+  <link href="https://fonts.googleapis.com/css2?family=Prosto+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/static/app_generated_index-6937cd5a.QZsmWosS.css?v=3">
+  <meta property="og:url" content="https://url/">
+  <meta property="og:title" content="Log in">
+  <meta property="og:type" content="website">
+  <title>Log in — Dexter</title>
+  <link rel="stylesheet" href="css/general/reset.css?v=2">
+  <link rel="stylesheet" href="css/general/component-html.css?v=2">
+</head>
+
+<body>
+  <!-- Applies the saved theme before first paint, same "dark" implicit-default
+       convention as assets/js/settings.js's resolveTheme() — mirrors that
+       function exactly now (fixed 2026-07-31; this used to check a stale
+       6-value THEMES array left over from before the Light/Dark/Device
+       rebuild, and never handled "device" at all, so a returning user whose
+       preference was "device" on a light-mode OS would flash dark here).
+       Inline and synchronous on purpose: by the time an external deferred
+       script could run, the (wrong) default theme would already have painted. -->
+  <script>
+    (function () {
+      var mode = localStorage.getItem('dexter-theme');
+      var systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var isLight = mode === 'light' || (mode === 'device' && !systemPrefersDark);
+      if (isLight) {
+        document.body.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <div class="login-shell">
+    <div class="login-bg" aria-hidden="true"></div>
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="login-mark" aria-hidden="true">D</div>
+        <span class="login-wordmark">Dexter</span>
+      </div>
+      <h1 class="login-title" id="login-title">Login to your account</h1>
+      <div class="login-content">
+        <div class="login-form">
+          <div class="login-form-row" id="login-name-field" hidden>
+            <label class="login-label" for="login-name">Name</label>
+            <input class="login-input" id="login-name" type="text" autocomplete="name"
+              placeholder="What should Dexter call you?">
+          </div>
+          <div class="login-form-row">
+            <label class="login-label" for="login-email">Email</label>
+            <input class="login-input" id="login-email" type="email" autocomplete="username"
+              placeholder="yourname@email.com">
+          </div>
+          <div class="login-form-row">
+            <label class="login-label" for="login-password">Password</label>
+            <input class="login-input" id="login-password" type="password" autocomplete="current-password"
+              placeholder="••••••••••••••••">
+          </div>
+          <div class="login-form-row" id="login-confirm-field" hidden>
+            <label class="login-label" for="login-confirm-password">Re-enter Password</label>
+            <input class="login-input" id="login-confirm-password" type="password" autocomplete="new-password"
+              placeholder="••••••••••••••••">
+          </div>
+          <p class="login-error" id="login-error" hidden></p>
+          <div class="login-submit-btn" id="login-submit" role="button">Continue</div>
+        </div>
+        <div class="login-split">
+          <span class="login-split-line"></span>
+          <span>OR</span>
+          <span class="login-split-line"></span>
+        </div>
+        <a class="login-google-btn" id="login-google" href="#">
+          <svg class="login-google-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#4285F4"
+              d="M17.64 9.2045c0-.6381-.0573-1.2518-.1636-1.8409H9v3.4814h4.8436c-.2086 1.125-.8427 2.0782-1.7959 2.7164v2.2581h2.9087c1.7018-1.5668 2.6836-3.8741 2.6836-6.615z" />
+            <path fill="#34A853"
+              d="M9 18c2.43 0 4.4673-.8064 5.9564-2.1818l-2.9087-2.2581c-.8064.54-1.8368.8591-3.0477.8591-2.3441 0-4.3282-1.5831-5.0359-3.7104H.9573v2.3318C2.4382 15.9832 5.4818 18 9 18z" />
+            <path fill="#FBBC05"
+              d="M3.9641 10.7104c-.18-.54-.2827-1.1168-.2827-1.7104s.1027-1.1704.2827-1.7104V4.9577H.9573C.3477 6.1732 0 7.5477 0 9s.3477 2.8268.9573 4.0423L3.9641 10.7104z" />
+            <path fill="#EA4335"
+              d="M9 3.5795c1.3214 0 2.5077.4541 3.4405 1.3459l2.5814-2.5814C13.4632.8918 11.4259 0 9 0 5.4818 0 2.4382 2.0168.9573 4.9577L3.9641 7.2896C4.6718 5.1623 6.6559 3.5795 9 3.5795z" />
+          </svg>
+          <span id="login-google-label">Continue with Google</span>
+        </a>
+      </div>
+      <p class="login-switch-hint">
+        <span id="login-switch-hint">New here?</span>
+        <a href="#" id="login-switch-link">Create an account</a>
+      </p>
+    </div>
+  </div>
+  <script src="./assets/js/login.js?v=3" defer></script>
+</body>
+
+</html>

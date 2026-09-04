@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dexter — Always know where your projects stand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lavender: #F5E6F0;
+    --mint: #D4F4E2;
+    --peach: #FFE5D9;
+    --powder: #C9E4F5;
+    --ink: #4A4A6A;
+    --ink-soft: #6E6E94;
+    --glass: rgba(255,255,255,0.55);
+    --glass-border: rgba(255,255,255,0.8);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  .body {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 15% 20%, var(--powder) 0%, transparent 45%),
+      radial-gradient(circle at 85% 15%, var(--peach) 0%, transparent 45%),
+      radial-gradient(circle at 50% 80%, var(--mint) 0%, transparent 50%),
+      var(--lavender);
+    background-attachment: fixed;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .font-display { font-family: 'Space Grotesk', sans-serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* ---- Stamp motif ---- */
+  .stamp {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--glass);
+    border: 1.5px dashed var(--ink-soft);
+    border-radius: 6px;
+    padding: 0.3rem 0.7rem;
+    color: var(--ink-soft);
+    transform: rotate(-2deg);
+    backdrop-filter: blur(6px);
+  }
+  .stamp-mint { border-color: #6FBE9A; color: #3F8A65; transform: rotate(2deg); }
+  .stamp-peach { border-color: #E8A98A; color: #C26A45; transform: rotate(-3deg); }
+  .stamp-powder { border-color: #7FAFD4; color: #3E6E96; transform: rotate(1.5deg); }
+  .stamp-hero { margin-bottom: 1.5rem; }
+  .stamp-pillar { margin-bottom: 1rem; }
+  .stamp-final-cta { margin-bottom: 1.2rem; }
+
+  /* ---- Layout ---- */
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .section { padding: 5rem 0; }
+
+  .glass {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 8px 32px rgba(120, 100, 160, 0.12);
+  }
+
+  /* ---- Hero ---- */
+  .hero {
+    padding-top: 4.5rem;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.1rem;
+  }
+
+  .hero-title-mark {
+    background: linear-gradient(135deg, #C9E4F5, #FFE5D9, #D4F4E2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    color: var(--ink-soft);
+    max-width: 540px;
+    margin: 0 auto 2.2rem;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3.5rem;
+  }
+
+  .btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.8rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: #fdfaf6;
+    box-shadow: 0 6px 20px rgba(74,74,106,0.25);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(74,74,106,0.3); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+  }
+  .btn-secondary:hover { background: rgba(74,74,106,0.06); transform: translateY(-2px); }
+
+  /* ---- Mock dashboard preview ---- */
+  .preview {
+    padding: 1.4rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .preview-window {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+  }
+  .preview-bar {
+    background: rgba(255,255,255,0.7);
+    padding: 0.6rem 1rem;
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-powder { background: var(--powder); }
+  .dot-peach { background: var(--peach); }
+  .dot-mint { background: var(--mint); }
+  .preview-body {
+    background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
+    padding: 2.5rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+  .preview-card {
+    background: rgba(255,255,255,0.65);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: left;
+  }
+  .preview-card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--ink-soft);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .preview-card-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .preview-card-wide { grid-column: span 3; }
+
+  @media (max-width: 720px) {
+    .preview-body { grid-template-columns: 1fr; }
+    .preview-card-wide { grid-column: span 1; }
+  }
+
+  /* ---- Section headers ---- */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .eyebrow-line {
+    height: 1px;
+    flex: 1;
+    background: linear-gradient(90deg, var(--ink-soft), transparent);
+    opacity: 0.3;
+  }
+
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.01em;
+  }
+
+  .section-lede {
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+    max-width: 620px;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ---- Problem section ---- */
+  .scatter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+  .scatter-card {
+    padding: 1.4rem;
+    text-align: left;
+  }
+  .scatter-card-glyph { font-size: 1.6rem; margin-bottom: 0.6rem; display: block; }
+  .scatter-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  .scatter-card-text { font-size: 0.9rem; color: var(--ink-soft); }
+
+  /* ---- What it is ---- */
+  .dossier-quote {
+    padding: 2.5rem;
+    text-align: center;
+  }
+  .dossier-quote-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.3rem, 3.2vw, 1.9rem);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .dossier-quote-highlight {
+    background: var(--mint);
+    padding: 0.05em 0.3em;
+    border-radius: 6px;
+  }
+
+  /* ---- Pillars ---- */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  @media (max-width: 720px) { .pillars { grid-template-columns: 1fr; } }
+
+  .pillar-card {
+    padding: 1.8rem;
+    text-align: left;
+  }
+  .pillar-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .pillar-card-text { color: var(--ink-soft); font-size: 0.95rem; }
+
+  /* ---- Comparison table ---- */
+  .compare-wrap {
+    overflow-x: auto;
+    padding: 0.5rem 1rem;
+  }
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+  }
+  .compare-cell {
+    text-align: left;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid rgba(74,74,106,0.1);
+    font-size: 0.92rem;
+  }
+  .compare-cell-head {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+  }
+  .compare-cell-no-border { border-bottom: none; }
+  .compare-row-highlight {
+    background: linear-gradient(90deg, rgba(212,244,226,0.4), rgba(255,229,217,0.4));
+  }
+  .compare-cell-highlight {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .compare-cell-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+  }
+
+  /* ---- Support without takeover ---- */
+  .agent-section {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  @media (max-width: 760px) { .agent-section { grid-template-columns: 1fr; } }
+
+  .agent-card {
+    padding: 2rem;
+  }
+  .agent-row {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    margin-bottom: 1.1rem;
+  }
+  .agent-row:last-child { margin-bottom: 0; }
+  .agent-icon {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .agent-icon-does { background: var(--mint); }
+  .agent-icon-doesnt { background: var(--peach); }
+  .agent-row-text { font-size: 0.92rem; }
+  .agent-row-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.1rem;
+    font-size: 0.9rem;
+  }
+
+  /* ---- Final CTA ---- */
+  .final-cta {
+    text-align: center;
+    padding: 3.5rem 2rem;
+  }
+  .final-cta-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    margin-bottom: 0.8rem;
+  }
+  .final-cta-text { color: var(--ink-soft); margin-bottom: 2rem; }
+
+  /* ---- Footer ---- */
+  .footer {
+    text-align: center;
+    padding: 3rem 1.5rem 4rem;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+  }
+  .footer-tagline { display: block; margin-top: 0.4rem; opacity: 0.6; }
+
+  /* Branding placeholder note (visible, dashed, removable) */
+  .brand-note {
+    font-family: 'JetBrains Mono', monospace;
+    border: 1.5px dashed var(--ink-soft);
+    border-radius: 12px;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    max-width: 1080px;
+    margin: 1.5rem auto 0;
+    text-align: center;
+  }
+</style>
+</head>
+<body class="body">
+
+  <!-- HERO -->
+  <section class="section hero">
+    <div class="container">
+      <div class="stamp stamp-mint stamp-hero">✦ status: in development</div>
+      <h1 class="hero-title">Always know where <span class="hero-title-mark">your projects</span> stand.</h1>
+      <p class="hero-subtitle">Dexter turns the messages, files, notes, and decisions scattered across a project into one living dossier — and helps you act on it.</p>
+      <div class="cta-row">
+        <a href="#" class="btn btn-primary">Get early access</a>
+        <a href="#how-it-works" class="btn btn-secondary">See how it works</a>
+      </div>
+
+      <!-- Mock dashboard preview -->
+      <div class="preview">
+        <div class="preview-window glass">
+          <div class="preview-bar">
+            <div class="dot dot-powder"></div>
+            <div class="dot dot-peach"></div>
+            <div class="dot dot-mint"></div>
+          </div>
+          <div class="preview-body">
+            <div class="preview-card">
+              <span class="preview-card-tag">✦ project status</span>
+              <span class="preview-card-label">On track — review pending</span>
+            </div>
+            <div class="preview-card">
+              <span class="preview-card-tag">✦ next action</span>
+              <span class="preview-card-label">Send revised draft to client</span>
+            </div>
+            <div class="preview-card">
+              <span class="preview-card-tag">✦ setback</span>
+              <span class="preview-card-label">Waiting on brand assets</span>
+            </div>
+            <div class="preview-card preview-card-wide">
+              <span class="preview-card-tag">✦ dossier — what changed</span>
+              <span class="preview-card-label">Client requested two layout changes and confirmed the launch date moved to the 24th.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PROBLEM -->
+  <section class="section">
+    <div class="container">
+      <div class="eyebrow">
+        <span class="stamp stamp-peach">✦ the problem</span>
+        <div class="eyebrow-line"></div>
+      </div>
+      <h2 class="section-title">The work around the work</h2>
+      <p class="section-lede">Freelancers don't just do the project — they carry it. Every decision, preference, and half-remembered comment lives somewhere different, and somewhere is rarely the same place twice.</p>
+
+      <div class="scatter-grid">
+        <div class="glass scatter-card">
+          <span class="scatter-card-glyph">💬</span>
+          <h3 class="scatter-card-title">Client messages</h3>
+          <p class="scatter-card-text">Feedback, approvals, and changes of mind, spread across threads.</p>
+        </div>
+        <div class="glass scatter-card">
+          <span class="scatter-card-glyph">📁</span>
+          <h3 class="scatter-card-title">Files</h3>
+          <p class="scatter-card-text">Drafts, briefs, and assets — with no record of what they meant at the time.</p>
+        </div>
+        <div class="glass scatter-card">
+          <span class="scatter-card-glyph">📝</span>
+          <h3 class="scatter-card-title">Notes</h3>
+          <p class="scatter-card-text">Quick thoughts jotted down and never looked at again.</p>
+        </div>
+        <div class="glass scatter-card">
+          <span class="scatter-card-glyph">🗓️</span>
+          <h3 class="scatter-card-title">Decisions & deadlines</h3>
+          <p class="scatter-card-text">Agreed once, remembered loosely, and never written down properly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT IT IS -->
+  <section class="section">
+    <div class="container">
+      <div class="eyebrow">
+        <span class="stamp stamp-powder">✦ what it is</span>
+        <div class="eyebrow-line"></div>
+      </div>
+      <h2 class="section-title">A project-aware collaborator</h2>
+      <p class="section-lede">Dexter reads the messy material and builds a living project dossier — a structured record of where things stand, what changed, what was agreed, and what needs attention.</p>
+
+      <div class="glass dossier-quote">
+        <p class="dossier-quote-text">Most tools remember <span class="dossier-quote-highlight">data</span>.<br>This one remembers <span class="dossier-quote-highlight">context</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS / PILLARS -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="eyebrow">
+        <span class="stamp stamp-mint">✦ how it works</span>
+        <div class="eyebrow-line"></div>
+      </div>
+      <h2 class="section-title">Four pillars, one dossier</h2>
+      <p class="section-lede">Everything Dexter does feeds back into a single living record of the project — and out again as clear, actionable next steps.</p>
+
+      <div class="pillars">
+        <div class="glass pillar-card">
+          <div class="stamp stamp-powder stamp-pillar">✦ dashboard</div>
+          <h3 class="pillar-card-title">Project dashboard</h3>
+          <p class="pillar-card-text">Status, phase, deadlines, setbacks, and recent updates — at a glance, for every project you're running.</p>
+        </div>
+        <div class="glass pillar-card">
+          <div class="stamp stamp-mint stamp-pillar">✦ dossier</div>
+          <h3 class="pillar-card-title">Living project dossier</h3>
+          <p class="pillar-card-text">Timeline, scope, client preferences, decisions, feedback, and open questions — kept current, automatically.</p>
+        </div>
+        <div class="glass pillar-card">
+          <div class="stamp stamp-peach stamp-pillar">✦ triage</div>
+          <h3 class="pillar-card-title">Task triage</h3>
+          <p class="pillar-card-text">Work sorted into what you decide, what Dexter can prepare, and what just needs to happen quietly in the background.</p>
+        </div>
+        <div class="glass pillar-card">
+          <div class="stamp stamp-powder stamp-pillar">✦ briefing</div>
+          <h3 class="pillar-card-title">Progress updates</h3>
+          <p class="pillar-card-text">A clear answer to "what changed, what's blocked, and what's next" — whenever you need it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="section">
+    <div class="container">
+      <div class="eyebrow">
+        <span class="stamp stamp-peach">✦ not another app</span>
+        <div class="eyebrow-line"></div>
+      </div>
+      <h2 class="section-title">It's not trying to replace your tools</h2>
+      <p class="section-lede">It connects the meaning between them.</p>
+
+      <div class="glass compare-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th class="compare-cell compare-cell-head">Tool</th>
+              <th class="compare-cell compare-cell-head">What it does</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="compare-cell compare-cell-label">Task manager</td>
+              <td class="compare-cell">Tracks tasks</td>
+            </tr>
+            <tr>
+              <td class="compare-cell compare-cell-label">File manager</td>
+              <td class="compare-cell">Stores documents</td>
+            </tr>
+            <tr>
+              <td class="compare-cell compare-cell-label">Chatbot</td>
+              <td class="compare-cell">Answers questions</td>
+            </tr>
+            <tr>
+              <td class="compare-cell compare-cell-label compare-cell-no-border">Automation tool</td>
+              <td class="compare-cell compare-cell-no-border">Follows predefined workflows</td>
+            </tr>
+            <tr class="compare-row-highlight">
+              <td class="compare-cell compare-cell-label compare-cell-highlight compare-cell-no-border">✦ Dexter</td>
+              <td class="compare-cell compare-cell-highlight compare-cell-no-border">Connects project context, tasks, files, memory, and reasoning around your work</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORT WITHOUT TAKEOVER -->
+  <section class="section">
+    <div class="container">
+      <div class="eyebrow">
+        <span class="stamp stamp-mint">✦ the agent's promise</span>
+        <div class="eyebrow-line"></div>
+      </div>
+      <h2 class="section-title">Support without takeover</h2>
+      <p class="section-lede">Dexter is built to make you feel capable — not rescued. It does the organising. You make the calls.</p>
+
+      <div class="agent-section">
+        <div class="glass agent-card">
+          <div class="agent-row">
+            <div class="agent-icon agent-icon-does">✓</div>
+            <p class="agent-row-text"><span class="agent-row-label">Captures messy material</span>Turns scattered messages, notes, and files into structured context.</p>
+          </div>
+          <div class="agent-row">
+            <div class="agent-icon agent-icon-does">✓</div>
+            <p class="agent-row-text"><span class="agent-row-label">Maintains the dossier</span>Keeps the project record current as things change.</p>
+          </div>
+          <div class="agent-row">
+            <div class="agent-icon agent-icon-does">✓</div>
+            <p class="agent-row-text"><span class="agent-row-label">Suggests next actions</span>Surfaces what needs attention — and drafts what it can.</p>
+          </div>
+          <div class="agent-row">
+            <div class="agent-icon agent-icon-does">✓</div>
+            <p class="agent-row-text"><span class="agent-row-label">Asks when unsure</span>Flags gaps and open questions instead of guessing.</p>
+          </div>
+        </div>
+        <div class="glass agent-card">
+          <div class="agent-row">
+            <div class="agent-icon agent-icon-doesnt">·</div>
+            <p class="agent-row-text"><span class="agent-row-label">Doesn't decide for you</span>Final calls on scope, client replies, and direction stay yours.</p>
+          </div>
+          <div class="agent-row">
+            <div class="agent-icon agent-icon-doesnt">·</div>
+            <p class="agent-row-text"><span class="agent-row-label">Doesn't act without approval</span>Anything that needs judgement waits for your sign-off.</p>
+          </div>
+          <div class="agent-row">
+            <div class="agent-icon agent-icon-doesnt">·</div>
+            <p class="agent-row-text"><span class="agent-row-label">Doesn't silently rewrite the record</span>Important changes to the dossier are shown, not hidden.</p>
+          </div>
+          <div class="agent-row">
+            <div class="agent-icon agent-icon-doesnt">·</div>
+            <p class="agent-row-text"><span class="agent-row-label">Doesn't pretend to know</span>If it's not in the dossier, Dexter says so.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="glass final-cta">
+        <span class="stamp stamp-powder stamp-final-cta">✦ filed and ready</span>
+        <h2 class="final-cta-title">Stop carrying the project in your head.</h2>
+        <p class="final-cta-text">Let Dexter hold the context — so you can hold the quality.</p>
+        <a href="#" class="btn btn-primary">Get early access</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-line">Dexter — an agentic project companion for freelancers.</div>
+    <span class="footer-tagline font-mono">✦ placeholder branding — swap mark, type, and palette once identity is finalised</span>
+  </footer>
+
+  <div class="brand-note">
+    ✦ TEMPLATE NOTE — Replace the ✦ mark, Space Grotesk / Inter / JetBrains Mono pairing, and the lavender/mint/peach/powder palette once Dexter's branding is finalised. Layout, copy structure, and section logic are designed to remain stable.
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "dexter-ops-mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server exposing a cross-project, read-mostly roll-up (project list + per-project summary/health) plus a project-agent provisioning tool (dexter_create_agent) for the Dexter operations-manager Hermes profile. See agents/dexter/soul.md. Not scoped to a single project — that's mcp-server/, this is its ops-level counterpart.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.1",
+    "js-yaml": "^4.1.0",
+    "zod": "^3.23.8"
+  }
+}

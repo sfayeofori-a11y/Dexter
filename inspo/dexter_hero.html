@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dexter — Dashboard Hero</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1625;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+  }
+
+  .screen {
+    width: 100%;
+    max-width: 1160px;
+    background: #f2eef9;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 48px 120px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06);
+  }
+
+  /* ── Top bar ─────────────────────────── */
+  .topbar {
+    background: #ffffff;
+    padding: 13px 26px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid #e6e0f5;
+  }
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 19px;
+    color: #6248d4;
+    letter-spacing: -0.3px;
+    flex-shrink: 0;
+  }
+  .logo em { color: #c0b2f0; font-style: italic; }
+  .proj-pill {
+    background: #f2eef9;
+    border: 1px solid #dcd4f6;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6248d4;
+    cursor: pointer;
+  }
+  .proj-pill.on { background: #6248d4; color: #fff; border-color: #6248d4; }
+  .spacer { flex: 1; }
+  .avatar {
+    width: 31px; height: 31px;
+    background: linear-gradient(135deg, #a8f0e0, #6dcfb8);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #1a7a66;
+  }
+
+  /* ── Three-col layout ────────────────── */
+  .main {
+    display: grid;
+    grid-template-columns: 210px 1fr 284px;
+    min-height: 660px;
+  }
+
+  /* ── Sidebar ─────────────────────────── */
+  .sidebar {
+    background: #ffffff;
+    border-right: 1px solid #e6e0f5;
+    padding: 18px 0;
+  }
+  .sb-label {
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    color: #b4aac8; padding: 0 20px;
+    margin: 18px 0 6px;
+  }
+  .sb-label:first-child { margin-top: 0; }
+  .sb-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 20px;
+    font-size: 13px; color: #574f72; cursor: pointer;
+  }
+  .sb-item:hover { background: #f7f3fd; }
+  .sb-item.on { background: #f0ebfc; color: #6248d4; font-weight: 600; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .g { background: #4ecda4; }
+  .v { background: #b39ddb; }
+  .a { background: #f5b942; }
+  .p { background: #f4a77a; }
+  .badge {
+    margin-left: auto;
+    background: #f5b942; color: #7a4f00;
+    font-size: 10px; font-weight: 700;
+    border-radius: 10px; padding: 1px 6px;
+  }
+
+  /* ── Content ─────────────────────────── */
+  .content {
+    padding: 26px 24px;
+    background: #f7f4fd;
+    overflow-y: auto;
+  }
+  .ph {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .ptitle {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px; color: #271e47; line-height: 1.1;
+  }
+  .psub { font-size: 12px; color: #9489b4; margin-top: 5px; }
+  .spill {
+    background: #e4faf4; color: #1a7a66;
+    font-size: 11px; font-weight: 700;
+    padding: 5px 13px; border-radius: 20px;
+    border: 1px solid #b2edd9;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .spill::before {
+    content: ''; width: 6px; height: 6px;
+    background: #4ecda4; border-radius: 50;
+    display: inline-block; border-radius: 50%;
+  }
+
+  /* Stats */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    margin-bottom: 18px;
+  }
+  .sc {
+    background: #fff; border-radius: 12px;
+    padding: 14px 16px; border: 1px solid #e6e0f5;
+  }
+  .sl { font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.6px; color: #b4aac8; margin-bottom: 6px; }
+  .sv {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px; color: #271e47; line-height: 1;
+  }
+  .ss { font-size: 11px; color: #9489b4; margin-top: 4px; }
+  .ss.w { color: #d97b2e; }
+  .ss.ok { color: #4ecda4; }
+
+  /* Timeline */
+  .tl {
+    background: #fff; border-radius: 12px;
+    padding: 16px 18px; border: 1px solid #e6e0f5;
+    margin-bottom: 16px;
+  }
+  .tl-head {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: #9489b4; margin-bottom: 9px;
+  }
+  .tl-head strong { color: #271e47; font-weight: 700; }
+  .tl-bg { background: #f0ebfc; border-radius: 6px; height: 10px; overflow: hidden; }
+  .tl-fill {
+    background: linear-gradient(90deg, #7055e0, #b39ddb);
+    height: 100%; width: 62%; border-radius: 6px;
+  }
+  .phases { display: flex; gap: 6px; margin-top: 10px; }
+  .ph-tag { font-size: 10px; font-weight: 500; padding: 2px 9px; border-radius: 10px; }
+  .ph-done { background: #e4faf4; color: #1a7a66; }
+  .ph-now { background: #ede8ff; color: #6248d4; font-weight: 700; }
+  .ph-up { background: #f5f2fc; color: #b4aac8; }
+
+  /* Blocker */
+  .blocker {
+    background: #fff9ec; border: 1px solid #f5e2a0;
+    border-radius: 10px; padding: 10px 14px;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: #7a5500;
+  }
+  .blocker strong { color: #a06000; font-weight: 700; }
+
+  /* Grid */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .card {
+    background: #fff; border-radius: 12px;
+    border: 1px solid #e6e0f5; overflow: hidden;
+  }
+  .ch {
+    padding: 12px 16px 10px; border-bottom: 1px solid #f0ebfc;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .ct { font-size: 11px; font-weight: 700; color: #271e47;
+    text-transform: uppercase; letter-spacing: 0.5px; }
+  .cc { font-size: 11px; color: #9489b4; }
+  .cb { padding: 10px 16px; }
+
+  /* Tasks */
+  .ti {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 7px 0; border-bottom: 1px solid #f5f2fc;
+  }
+  .ti:last-child { border: none; }
+  .chk {
+    width: 16px; height: 16px; border-radius: 4px;
+    border: 2px solid #dcd4f6; flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .chk.dn { background: #6248d4; border-color: #6248d4; }
+  .chk.dn::after { content: '✓'; color: #fff; font-size: 9px; }
+  .tt { font-size: 12px; color: #3a2f68; line-height: 1.4; }
+  .tt.dn { color: #b4aac8; text-decoration: line-through; }
+  .tm { display: flex; gap: 6px; margin-left: auto; align-items: center; flex-shrink: 0; }
+  .tag { font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.4px; padding: 2px 7px; border-radius: 6px; }
+  .ty { background: #ede8ff; color: #6248d4; }
+  .ta { background: #fef3e2; color: #b07800; }
+  .tg { background: #e4faf4; color: #1a7a66; }
+
+  /* Dossier */
+  .di {
+    display: flex; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid #f5f2fc;
+  }
+  .di:last-child { border: none; }
+  .dico {
+    width: 24px; height: 24px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; flex-shrink: 0;
+  }
+  .ic-dec { background: #ede8ff; }
+  .ic-risk { background: #fff0e8; }
+  .ic-chg { background: #e4faf4; }
+  .ic-q { background: #fef3e2; }
+  .dt { font-size: 12px; color: #3a2f68; line-height: 1.5; }
+  .dl { font-size: 10px; color: #9489b4; margin-top: 2px; }
+
+  /* ── Agent panel ─────────────────────── */
+  .agent {
+    background: #ffffff;
+    border-left: 1px solid #e6e0f5;
+    display: flex; flex-direction: column;
+  }
+  .ah {
+    padding: 16px 18px 13px; border-bottom: 1px solid #f0ebfc;
+    display: flex; align-items: center; gap: 11px;
+  }
+  .dav {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, #b39ddb, #7055e0);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; position: relative; flex-shrink: 0;
+    color: #fff;
+  }
+  .online {
+    position: absolute; width: 9px; height: 9px;
+    background: #4ecda4; border-radius: 50%;
+    bottom: 0; right: 0; border: 2px solid #fff;
+  }
+  .an { font-size: 13px; font-weight: 700; color: #271e47; }
+  .as { font-size: 11px; color: #9489b4; }
+
+  .msgs {
+    flex: 1; padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 12px;
+    overflow-y: auto;
+  }
+  .msg {
+    background: #f7f4fd; border-radius: 12px 12px 12px 4px;
+    padding: 10px 13px; font-size: 12px; color: #3a2f68;
+    line-height: 1.6; border: 1px solid #ede8ff;
+  }
+  .msg strong { color: #6248d4; font-weight: 700; }
+  .mtime { font-size: 10px; color: #b4aac8; margin-top: 4px; }
+
+  .suggest {
+    background: #fffbf0; border: 1px solid #f5e2a0;
+    border-radius: 10px; padding: 11px 13px;
+    font-size: 12px; color: #7a5500; line-height: 1.55;
+  }
+  .slab {
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    color: #c09000; margin-bottom: 5px;
+  }
+  .sbtns { display: flex; gap: 7px; margin-top: 9px; }
+  .b-ok {
+    flex: 1; background: #6248d4; color: #fff;
+    border: none; border-radius: 7px; padding: 7px 0;
+    font-size: 11px; font-weight: 700; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .b-ed {
+    background: #f0ebfc; color: #6248d4;
+    border: 1px solid #dcd4f6; border-radius: 7px;
+    padding: 7px 12px; font-size: 11px; font-weight: 600;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+  }
+
+  .inp-row {
+    padding: 12px 14px; border-top: 1px solid #f0ebfc;
+    display: flex; gap: 8px; align-items: center;
+  }
+  .inp {
+    flex: 1; background: #f7f4fd;
+    border: 1px solid #dcd4f6; border-radius: 8px;
+    padding: 8px 12px; font-size: 12px; color: #3a2f68;
+    font-family: 'DM Sans', sans-serif; outline: none;
+  }
+  .send-btn {
+    width: 32px; height: 32px; background: #6248d4;
+    border: none; border-radius: 8px; cursor: pointer;
+    color: #fff; font-size: 15px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+</style>
+</head>
+<body>
+<div class="screen">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="logo">dexter<em>.</em></div>
+    <div class="proj-pill on">Marigold Rebrand</div>
+    <div class="proj-pill">Hartley Legal Site</div>
+    <div class="proj-pill">Peel Studio Deck</div>
+    <div class="spacer"></div>
+    <div class="avatar">TK</div>
+  </div>
+
+  <div class="main">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sb-label">This Project</div>
+      <div class="sb-item on"><span class="dot g"></span> Dashboard</div>
+      <div class="sb-item"><span class="dot v"></span> Dossier</div>
+      <div class="sb-item"><span class="dot a"></span> Tasks <span class="badge">3</span></div>
+      <div class="sb-item"><span class="dot p"></span> Files</div>
+
+      <div class="sb-label">Tracking</div>
+      <div class="sb-item"><span class="dot v"></span> Progress Log</div>
+      <div class="sb-item"><span class="dot a"></span> Open Questions <span class="badge">2</span></div>
+      <div class="sb-item"><span class="dot g"></span> Decisions</div>
+
+      <div class="sb-label">Other Projects</div>
+      <div class="sb-item"><span class="dot p"></span> Hartley Legal Site</div>
+      <div class="sb-item"><span class="dot v"></span> Peel Studio Deck</div>
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="ph">
+        <div>
+          <div class="ptitle">Marigold Rebrand</div>
+          <div class="psub">Brand identity · Marigold Wellness Co · Started 14 Apr 2025</div>
+        </div>
+        <div class="spill">In Progress</div>
+      </div>
+
+      <div class="stats">
+        <div class="sc">
+          <div class="sl">Phase</div>
+          <div class="sv">3<span style="font-size:14px;color:#9489b4">/5</span></div>
+          <div class="ss">Visual Direction</div>
+        </div>
+        <div class="sc">
+          <div class="sl">Deadline</div>
+          <div class="sv" style="font-size:18px;margin-top:2px">12 Jun</div>
+          <div class="ss w">6 days away</div>
+        </div>
+        <div class="sc">
+          <div class="sl">Tasks</div>
+          <div class="sv">7</div>
+          <div class="ss">3 need your input</div>
+        </div>
+        <div class="sc">
+          <div class="sl">Health</div>
+          <div class="sv" style="color:#f5b942">⚠</div>
+          <div class="ss w">1 blocker</div>
+        </div>
+      </div>
+
+      <div class="tl">
+        <div class="tl-head">
+          <span><strong>Timeline</strong> — 62% complete</span>
+          <span>Deadline: 12 Jun 2025</span>
+        </div>
+        <div class="tl-bg"><div class="tl-fill"></div></div>
+        <div class="phases">
+          <span class="ph-tag ph-done">Discovery ✓</span>
+          <span class="ph-tag ph-done">Moodboarding ✓</span>
+          <span class="ph-tag ph-now">→ Visual Direction</span>
+          <span class="ph-tag ph-up">Refinement</span>
+          <span class="ph-tag ph-up">Handoff</span>
+        </div>
+      </div>
+
+      <div class="blocker">
+        ⚠️ <span><strong>Blocker:</strong> Client hasn't confirmed preferred direction from Round 1. Follow-up is overdue. Dexter has drafted a reminder — review in Tasks.</span>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="ch">
+            <div class="ct">Tasks</div>
+            <div class="cc">7 total · 3 need you</div>
+          </div>
+          <div class="cb">
+            <div class="ti">
+              <div class="chk dn"></div>
+              <div class="tt dn">Send Round 1 concepts to client</div>
+              <div class="tm"><span class="tag ty">You</span></div>
+            </div>
+            <div class="ti">
+              <div class="chk"></div>
+              <div class="tt">Review & approve follow-up email draft</div>
+              <div class="tm"><span class="tag ty">You</span></div>
+            </div>
+            <div class="ti">
+              <div class="chk"></div>
+              <div class="tt">Confirm typeface direction once client responds</div>
+              <div class="tm"><span class="tag ty">You</span></div>
+            </div>
+            <div class="ti">
+              <div class="chk"></div>
+              <div class="tt">Summarise Round 1 feedback for dossier</div>
+              <div class="tm"><span class="tag ta">Agent</span></div>
+            </div>
+            <div class="ti">
+              <div class="chk dn"></div>
+              <div class="tt dn">Update dossier with call notes</div>
+              <div class="tm"><span class="tag ta">Agent</span></div>
+            </div>
+            <div class="ti">
+              <div class="chk dn"></div>
+              <div class="tt dn">Send invoice reminder (week 3)</div>
+              <div class="tm"><span class="tag tg">Auto</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="ch">
+            <div class="ct">Dossier Highlights</div>
+            <div class="cc">Updated 2h ago</div>
+          </div>
+          <div class="cb">
+            <div class="di">
+              <div class="dico ic-dec">✓</div>
+              <div>
+                <div class="dt">Earthy, warm palette agreed — no cool blues or greys.</div>
+                <div class="dl">Decision · 2 May</div>
+              </div>
+            </div>
+            <div class="di">
+              <div class="dico ic-risk">⚠</div>
+              <div>
+                <div class="dt">Scope may expand — client mentioned social templates "would be nice."</div>
+                <div class="dl">Risk · 8 May</div>
+              </div>
+            </div>
+            <div class="di">
+              <div class="dico ic-chg">↻</div>
+              <div>
+                <div class="dt">Client prefers rounded, approachable type over editorial/condensed.</div>
+                <div class="dl">Preference · 10 May</div>
+              </div>
+            </div>
+            <div class="di">
+              <div class="dico ic-q">?</div>
+              <div>
+                <div class="dt">Open: Does handoff include Figma source files or PDFs only?</div>
+                <div class="dl">Open Question</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent panel -->
+    <div class="agent">
+      <div class="ah">
+        <div class="dav">✦<div class="online"></div></div>
+        <div>
+          <div class="an">Dexter</div>
+          <div class="as">Project companion · Active</div>
+        </div>
+      </div>
+
+      <div class="msgs">
+        <div>
+          <div class="msg">
+            <strong>Quick update</strong> — I've processed your notes from the Marigold call. I updated the dossier with 3 new client preferences and flagged a potential scope risk around social templates.
+          </div>
+          <div class="mtime">Today, 9:14 am</div>
+        </div>
+
+        <div>
+          <div class="msg">
+            The Round 1 direction choice is now <strong>5 days overdue</strong>. This is blocking typeface finalisation and Round 2 prep. I've drafted a follow-up for your review.
+          </div>
+          <div class="mtime">Today, 9:14 am</div>
+        </div>
+
+        <div class="suggest">
+          <div class="slab">✦ Draft ready · client follow-up</div>
+          "Hi Sarah — just following up on the Round 1 concepts. Happy to jump on a quick call if it helps narrow things down. Let me know what's working!"
+          <div class="sbtns">
+            <button class="b-ok">Approve &amp; Send</button>
+            <button class="b-ed">Edit</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="msg">
+            One open question needs your call before Round 3: does the handoff include Figma source files, or PDFs only?
+          </div>
+          <div class="mtime">Today, 9:15 am</div>
+        </div>
+      </div>
+
+      <div class="inp-row">
+        <input class="inp" type="text" placeholder="Ask Dexter about this project…" />
+        <button class="send-btn">↑</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

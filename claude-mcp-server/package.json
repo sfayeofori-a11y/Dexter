@@ -1,0 +1,19 @@
+{
+  "name": "dexter-claude-mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Remote (HTTP + OAuth) MCP server giving Claude — in Cowork, not a Hermes profile — cross-project read access to Dexter's project context (state/dossier/transcript), plus the same gated write tools (dexter_propose_phase, dexter_add_agent_task, dexter_append_dossier, dexter_log_activity) the Dexter agent itself uses via mcp-server/index.js. See README.md for setup (tunnel + OAuth wiring) and server/store.js's 'Agent action gating' section for what 'gated' means here.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.1",
+    "express": "^5.2.1",
+    "zod": "^3.23.8"
+  }
+}

@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="manifest" href="./manifest.json" />
+  <!-- Nunito Sans / Kantumruy Pro are self-hosted via @font-face in the
+       shared stylesheet (2026-09-01, dexter-demo font port) -- no Google
+       Fonts request needed. -->
+  <link rel="stylesheet" href="./assets/static/app_generated_index-6937cd5a.QZsmWosS.css?v=2">
+  <meta property="og:url" content="https://url/">
+  <meta property="og:title" content="Projects">
+  <meta property="og:type" content="website">
+  <title>Projects</title>
+  <link rel="stylesheet" href="css/general/reset.css?v=2">
+  <link rel="stylesheet" href="css/general/component-html.css?v=2">
+</head>
+
+<body>
+  <!-- Shown by DEFAULT (no display:none — unlike every other overlay below),
+       so it's already covering the page before connection-gate.js even runs;
+       see that file for why. Lifted once the first sync since page load
+       settles, or swapped into the unreachable state if the coordination
+       server never answers — see project-data.js's onConnectionChange. -->
+  <div id="connection-gate" class="connection-gate">
+    <div class="connection-gate-panel">
+      <div class="connection-gate-mark">D</div>
+      <p class="connection-gate-message">Connecting to Dexter…</p>
+      <div class="connection-gate-dots"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+  <!-- Developer access mode banner — hidden by default, shown by
+       connection-gate.js only when admin@dexter.com logged in through
+       login.js's offline fallback AND the coordination server is actually
+       unreachable. See connection-gate.js's onConnectionChange handler. -->
+  <div id="dev-mode-banner" class="dev-mode-banner dev-mode-banner-hidden">No server connection. No changes are reflected.</div>
+  <div class="body-container">
+    <div class="navbar">
+      <div class="hamburger-btn" data-click="toggle-drawer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="svg">
+          <path
+            d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z">
+          </path>
+        </svg>
+      </div>
+      <p class="wordmark">dexter</p>
+    </div>
+    <div class="content">
+      <div class="side-panel">
+        <div class="workspace-switcher">
+          <div class="workspace-switcher-mark">D</div>
+          <span class="workspace-switcher-name">This workspace</span>
+        </div>
+        <div class="sidepanel-container">
+          <div class="panel-ul">
+            <div class="all-projects-nav active">
+              <div class="all-projects-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="svg">
+                  <path opacity="0.1"
+                    d="M8.976 3C4.05476 3 3 4.05476 3 8.976V15.024C3 19.9452 4.05476 21 8.976 21H9V9H21V8.976C21 4.05476 19.9452 3 15.024 3H8.976Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M3 8.976C3 4.05476 4.05476 3 8.976 3H15.024C19.9452 3 21 4.05476 21 8.976V15.024C21 19.9452 19.9452 21 15.024 21H8.976C4.05476 21 3 19.9452 3 15.024V8.976Z"
+                    stroke="currentColor" stroke-width="2"></path>
+                  <path d="M21 9L3 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path d="M9 21L9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <span>All projects</span>
+            </div>
+          </div>
+        </div>
+        <div class="settings-nav" data-click="show-settings">
+          <div class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor" class="svg">
+              <path
+                d="M256.5 8a120 120 0 1 1 0 240 120 120 0 1 1 0-240zM226.7 304l59.4 0 1.5 0c-12.9 26.8-7.8 58.2 11.5 79.5-20.2 22.3-24.8 55.8-9.4 83.4l22.5 40.4c.9 1.6 1.9 3.2 2.9 4.7l-237 0c-16.4 0-29.7-13.3-29.7-29.7 0-98.5 79.8-178.3 178.3-178.3zm205.9-56.4c0-13.3 10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 6.1c0 18.9 24.1 32.8 40.5 23.4l5-2.9c11.6-6.7 26.5-2.6 33 9.1l22.4 40.2c6.2 11.2 2.6 25.2-8.2 32l-4.7 2.9c-16.2 10.1-16.2 39.9 0 50.1l4.6 2.9c10.8 6.8 14.5 20.8 8.3 32L607 483.8c-6.5 11.7-21.4 15.9-33 9.1l-4.9-2.9c-16.4-9.5-40.5 4.5-40.5 23.4l0 6.1c0 13.3-10.7 24-24 24l-48 0c-13.3 0-24-10.7-24-24l0-5.9c0-19-24.2-33-40.7-23.5l-4.8 2.8c-11.6 6.7-26.4 2.6-33-9.1l-22.6-40.4c-6.2-11.2-2.6-25.3 8.3-32.1l4.4-2.7c16.3-10.1 16.3-40.1 0-50.2l-4.5-2.8c-10.9-6.8-14.5-20.9-8.3-32.1l22.5-40.3c6.5-11.7 21.4-15.8 32.9-9.1l4.8 2.8c16.5 9.5 40.7-4.5 40.7-23.5l0-5.9zm99.9 136.2a52 52 0 1 0 -104 0 52 52 0 1 0 104 0z">
+              </path>
+            </svg>
+          </div>
+          <div>Settings</div>
+        </div>
+      </div>
+      <div class="drawer-scrim" id="drawer-scrim"></div>
+      <div data-scroll-disable="yes" class="workspace">
+        <div class="workspace-screen">
+          <section class="content main">
+            <div class="header">
+              <div class="title-desco">
+                <div class="title">
+                  <span>Projects</span>
+                </div>
+                <div class="desco">
+                  <span>One glance at where every project stands.</span>
+                </div>
+              </div>
+              <div class="workspace-actions">
+                <input class="workspace-search" id="workspace-search" type="text" placeholder="Search projects…">
+                <div data-click="show-new-project" class="add-new-2">
+                  <div class="add-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"
+                      class="new-task-icon-svg">
+                      <path
+                        d="M256 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 160-160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0 0 160c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0 0-160z">
+                      </path>
+                    </svg>
+                  </div>
+                  <span class="add-label">new project</span>
+                </div>
+              </div>
+            </div>
+            <!-- Cards are generated by assets/js/workspace.js from
+                 window.DexterProjectData.listProjects() — Marigold included, since it
+                 now lives in the same persisted store as every other project rather
+                 than being a one-off hardcoded card. See renderProjectGrid(). -->
+            <div class="project-grid" id="project-grid"></div>
+          </section>
+          <div data-ani="show-new-project" data-scroll-disable="when-visible" data-click="hide-new-project"
+            class="overlay-1">
+            <div class="task-form new-project-form">
+              <div class="task-form-header">
+                <span class="task-form-title">New project</span>
+                <div class="task-form-close" data-click="hide-new-project">&times;</div>
+              </div>
+              <div class="task-form-field">
+                <label class="task-form-label" for="new-project-name">Project name</label>
+                <input class="task-form-input" id="new-project-name" type="text"
+                  placeholder="e.g. Client website redesign">
+              </div>
+              <div class="task-form-field">
+                <label class="task-form-label" for="new-project-client">Client</label>
+                <input class="task-form-input" id="new-project-client" type="text" placeholder="Who's this for?">
+              </div>
+              <p class="new-project-form-hint">Starts empty — Dexter builds out the dossier, tasks, and timeline as
+                project material comes in.</p>
+              <div class="task-form-actions">
+                <div class="task-form-queue" data-click="hide-new-project">Cancel</div>
+                <div class="task-form-start" data-click="create-project">Create project</div>
+              </div>
+            </div>
+          </div>
+          <div data-ani="show-edit-project" data-scroll-disable="when-visible" data-click="hide-edit-project"
+            class="overlay-1">
+            <div class="task-form">
+              <div class="task-form-header">
+                <span class="task-form-title">Edit project</span>
+                <div class="task-form-close" data-click="hide-edit-project">&times;</div>
+              </div>
+              <div class="task-form-field">
+                <label class="task-form-label" for="edit-project-name">Project name</label>
+                <input class="task-form-input" id="edit-project-name" type="text">
+              </div>
+              <div class="task-form-field">
+                <label class="task-form-label" for="edit-project-client">Client</label>
+                <input class="task-form-input" id="edit-project-client" type="text" placeholder="Who's this for?">
+              </div>
+              <div class="task-form-actions">
+                <div class="task-form-queue" data-click="hide-edit-project">Cancel</div>
+                <div class="task-form-start" data-click="save-edit-project">Save</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-ani="show-settings" data-scroll-disable="when-visible" class="overlay settings"
+        data-click="hide-settings">
+        <div class="settings-panel">
+          <div class="settings-header">
+            <span class="settings-title">Settings</span>
+            <div class="settings-close" data-click="hide-settings">×</div>
+          </div>
+          <div class="settings-row settings-row-theme">
+            <span class="settings-label">Appearance</span>
+            <div class="theme-swatch-row" id="theme-swatch-row">
+              <div class="theme-swatch" data-theme-value="dark">
+                <div class="theme-swatch-dot preview-dark"></div>
+                <span class="theme-swatch-label">Dark</span>
+              </div>
+              <div class="theme-swatch" data-theme-value="light">
+                <div class="theme-swatch-dot preview-light"></div>
+                <span class="theme-swatch-label">Light</span>
+              </div>
+              <div class="theme-swatch" data-theme-value="emerald">
+                <div class="theme-swatch-dot preview-emerald"></div>
+                <span class="theme-swatch-label">Emerald</span>
+              </div>
+              <div class="theme-swatch" data-theme-value="ruby">
+                <div class="theme-swatch-dot preview-ruby"></div>
+                <span class="theme-swatch-label">Ruby</span>
+              </div>
+              <div class="theme-swatch" data-theme-value="amethyst">
+                <div class="theme-swatch-dot preview-amethyst"></div>
+                <span class="theme-swatch-label">Amethyst</span>
+              </div>
+              <div class="theme-swatch" data-theme-value="rose">
+                <div class="theme-swatch-dot preview-rose"></div>
+                <span class="theme-swatch-label">Rose</span>
+              </div>
+            </div>
+          </div>
+          <!-- Google Drive connection (2026-07-22) — account-level, not
+               project-level, so this lives in Settings rather than a
+               project's own Files screen. Wired in
+               assets/js/account-connections.js, loaded after project-data.js
+               (see that file's own comment on why load order matters here).
+               Starts hidden/"Checking…" and re-checks every time Settings is
+               opened. -->
+          <div class="settings-row">
+            <div class="settings-label-group">
+              <span class="settings-label">Google Drive</span>
+              <span class="settings-connection-status" id="settings-drive-status">Checking&hellip;</span>
+            </div>
+            <div class="detail-action-btn danger" id="settings-drive-disconnect-btn" role="button" hidden>Disconnect</div>
+          </div>
+          <!-- Session K — logs out via window.DexterProjectData.logout() (clears
+               the session cookie + server-side session, see project-data.js),
+               then always redirects to login.html regardless of whether that
+               call actually succeeded (see logout()'s own comment: a network
+               failure here shouldn't strand someone on a page they meant to
+               leave). Wired in assets/js/auth-guard.js. -->
+          <div class="settings-row">
+            <span class="settings-label">Account</span>
+            <div class="detail-action-btn danger" id="settings-logout-btn" role="button">Log out</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="workspace-toast" id="workspace-toast"></div>
+  <script src="./assets/js/mobile-nav.js?v=2" defer></script>
+  <script src="./assets/js/settings.js?v=2" defer></script>
+  <script src="./assets/js/project-data.js?v=2" defer></script>
+  <script src="./assets/js/account-connections.js?v=2" defer></script>
+  <!-- Must come before connection-gate.js — an invalid/missing session should
+       bounce to login.html before the gate's own firstSync (now session-gated
+       server-side) gets a chance to lift and briefly flash an empty dashboard.
+       See auth-guard.js's own top comment. -->
+  <script src="./assets/js/auth-guard.js?v=2" defer></script>
+  <script src="./assets/js/connection-gate.js?v=2" defer></script>
+  <script src="./assets/js/workspace.js?v=2" defer></script>
+  <!-- No service worker is registered any more (see sw.js) — a cache-first worker
+       was a stale-demo risk with no offline requirement to justify it. sw.js still
+       ships so any browser that registered the old version can clean itself up. -->
+</body>
+
+</html>

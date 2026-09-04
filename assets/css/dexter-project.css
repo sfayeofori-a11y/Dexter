@@ -1,0 +1,4068 @@
+/* Dexter demo — dashboard rebuild matching the live Webflow site
+   (sandbox-b67000.webflow.io, page 69754e26e121b472b584064c, site
+   69754e24e121b472b5840637). Every value below is taken directly from a
+   browser-inspector capture of the live rendered page (copy-and-paste.html /
+   copy-and-paste.css in this folder) — not from the Designer API, not from
+   notes. Class names match Webflow's own literal class names so nothing had
+   to be re-mapped by hand.
+
+   IMPORTANT — theme: the live site does NOT switch between light and dark
+   via prefers-color-scheme or any toggle. Its :root defines a "light" set of
+   custom properties that is never actually used, and .body unconditionally
+   overrides every one of them with the dark set below. The page is always
+   dark. There is no light mode to build here — building one would itself be
+   a deviation from the literal source. */
+
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600;700&display=swap');
+
+/* ---------- Color variables — literal values from .body's override block ---------- */
+:root {
+   --text-muted: #93a4c2;
+   --text: #eef3fa;
+   --text-sim: #b8c9e0;
+   --border-color: #6ea0e62e;
+   --surface-wash: #6ea0e614;
+   --border-error: #ef7d7224;
+   --surface-error: #ef7d7229;
+   --error: #ef7d72;
+   --base: #171c27;
+   --hover-fill: #6ea0e624;
+   --border-coral: #f0a68859;
+   --surface-coral: #f0a68829;
+   --coral: #f0a688;
+   --border-blue: #8fc4ea59;
+   --surface-blue: #8fc4ea29;
+   --blue: #8fc4ea;
+   --border-pink: #e0a0c059;
+   --surface-pink: #e0a0c029;
+   --pink: #e0a0c0;
+   --dexter: #a58ce8;
+   --scrim: #6ea0e633;
+   --active-fill: #6ea0e629;
+   --surface-glass: #6ea0e61f;
+   --shadow-color: #6ea0e614;
+   --white: #fff;
+   --border-strong: #6ea0e652;
+   --attention: #f5b942;
+   /* Added for the real connection-gate/dev-mode-banner markup (not part of
+      demo's own literal capture, which never had these two components) —
+      see the connection-gate CSS block appended at the end of this file.
+      Values match the real root app's dark palette (settings.js/tasks.js
+      styling), not guessed. */
+   --red: #ef7d72;
+   --on-accent: #ffffff;
+   --dexter-gradient: linear-gradient(90deg, #7055e0, #b39ddb);
+   --active-fill-accent: #a58ce829;
+   --success: #5cdbb0;
+   --scheduled: #7dd3e0;
+   --tasks: #167be1;
+   --glass: #fffc;
+   --border-glass: #6ea0e624;
+   --border-success: #5cdbb073;
+   --border-accent: #a58ce873;
+   --border-attention: #f5b94266;
+   --border-ocean: #167be147;
+   --surface-attention: #f5b9421a;
+   --surface-ocean: #167be12e;
+   --surface-success: #5cdbb029;
+   --active-fill-strong: #6ea0e638;
+   --scrollbar-thumb: #6ea0e666;
+   --fade-0: #10233f59;
+   --fade-100: #171c2700;
+   --hover-fill-strong: #6ea0e633;
+   --dark: #10233f;
+   --body-size: clamp(0.875rem, calc(0.8393rem + 0.1786vw), 1rem);
+  --body: clamp(.875 * 1rem, ((.875 - ((1 - .875) / (90 - 20) * 20)) * 1rem + ((1 - .875) / (90 - 20)) * 100vw), 1 * 1rem);
+  --_color-variables---text-muted: #93a4c2;
+  --_color-variables---text: #eef3fa;
+  --_color-variables---text-sim: #b8c9e0;
+  --_color-variables---border-color: #6ea0e62e;
+  --_color-variables---surface-wash: #6ea0e614;
+  --_color-variables---border-error: #ef7d7224;
+  --_color-variables---surface-error: #ef7d7229;
+  --_color-variables---error: #ef7d72;
+  --_color-variables---base: #171c27;
+  --_color-variables---hover-fill: #6ea0e624;
+  --_color-variables---border-coral: #f0a68859;
+  --_color-variables---surface-coral: #f0a68829;
+  --_color-variables---coral: #f0a688;
+  --_color-variables---border-blue: #8fc4ea59;
+  --_color-variables---surface-blue: #8fc4ea29;
+  --_color-variables---blue: #8fc4ea;
+  --_color-variables---border-pink: #e0a0c059;
+  --_color-variables---surface-pink: #e0a0c029;
+  --_color-variables---pink: #e0a0c0;
+  --_color-variables---fade-0: #10233f59;
+  --_color-variables---fade-100: #171c2700;
+  --_color-variables---hover-fill-strong: #6ea0e633;
+  --_color-variables---dexter: #a58ce8;
+  --_color-variables---scrim: #6ea0e633;
+  --_color-variables---active-fill: #6ea0e629;
+  --_color-variables---surface-glass: #6ea0e61f;
+  --_color-variables---shadow-color: #6ea0e614;
+  --_color-variables---white: #fff;
+  --_color-variables---border-strong: #6ea0e652;
+  --_color-variables---attention: #f5b942;
+  --_color-variables---active-fill-accent: #a58ce829;
+  --_color-variables---dark: #10233f;
+  --_color-variables---success: #5cdbb0;
+  --_color-variables---scheduled: #7dd3e0;
+  --_color-variables---tasks: #167be1;
+  --_color-variables---glass: #fffc;
+  --_color-variables---border-glass: #6ea0e624;
+  --_color-variables---border-success: #5cdbb073;
+  --_color-variables---border-accent: #a58ce873;
+  --_color-variables---border-attention: #f5b94266;
+  --_color-variables---border-ocean: #167be147;
+  --_color-variables---surface-attention: #f5b9421a;
+  --_color-variables---surface-ocean: #167be12e;
+  --_color-variables---surface-success: #5cdbb029;
+  --_color-variables---active-fill-strong: #6ea0e638;
+  --_color-variables---scrollbar-thumb: #6ea0e666;
+}
+
+/* ---------- Reset + base ----------
+   The live site's actual body styling comes from TWO layers: Webflow's own
+   generic tag reset (bare `body`/`h1`-`h6`/`p`/img/button rules, shared by
+   every Webflow site) and a `.body` class on top that overrides background/
+   color/font-size/cursor/line-height/display/overflow for this page. Our
+   single `body` rule below merges both layers' *effective* result. The
+   heading defaults (font-family/weight/size/line-height/margin) matter even
+   though most headings here carry their own class — .card-header-label and
+   .card-main-header are real captured <h4>s that only override some
+   properties, so they still inherit Kantumruy Pro/600 from this tag default,
+   same as on the live page. */
+* {
+   box-sizing: border-box;
+}
+
+html {
+   font-size: var(--body-size);
+   height: 100%;
+}
+
+body {
+   margin: 0;
+   min-height: 100%;
+   display: flex;
+   overflow: hidden;
+   height: 100vh;
+   background-color: var(--base);
+   color: var(--text);
+   font-family: 'Nunito Sans', sans-serif;
+   line-height: 1.4em;
+   cursor: default;
+}
+
+h1 {
+   margin: 20px 0 10px;
+   font-family: 'Kantumruy Pro', sans-serif;
+   font-size: 38px;
+   font-weight: 600;
+   line-height: 44px;
+}
+
+h2 {
+   margin: 20px 0 10px;
+   font-family: 'Kantumruy Pro', sans-serif;
+   font-size: 32px;
+   font-weight: 600;
+   line-height: 36px;
+}
+
+h3 {
+   margin: 20px 0 10px;
+   font-family: 'Kantumruy Pro', sans-serif;
+   font-size: 24px;
+   font-weight: 600;
+   line-height: 30px;
+}
+
+h4 {
+   margin: 10px 0;
+   font-family: 'Kantumruy Pro', sans-serif;
+   font-size: 18px;
+   font-weight: 600;
+   line-height: 24px;
+}
+
+h5 {
+   margin: 10px 0;
+   font-family: 'Kantumruy Pro', sans-serif;
+   font-size: 14px;
+   font-weight: 600;
+   line-height: 20px;
+}
+
+h6 {
+   margin: 10px 0;
+   font-family: 'Kantumruy Pro', sans-serif;
+   font-size: 12px;
+   font-weight: 600;
+   line-height: 18px;
+}
+
+p {
+   margin-top: 0;
+   margin-bottom: 10px;
+}
+
+img {
+   display: inline-block;
+   max-width: 100%;
+   border: 0;
+   vertical-align: middle;
+}
+
+button {
+   font: inherit;
+   border: none;
+   background: none;
+   cursor: pointer;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  border-right: 1px solid var(--_color-variables---border-color);
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 14em;
+  padding-top: 1.5em;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+  /* Collapse animation — my own addition (round 4). Literal only captured
+     a hard on/off: base .sidebar vs. a w-variant where the whole element is
+     display:none, toggled by the .minimize-toggle.side-bar /
+     .minimize-toggle.main pair (both literal, opposite default visibility —
+     see those rules below). Animating the swap with max-width/opacity
+     instead of an instant display:none jump is not itself captured. */
+  transition: max-width .22s ease, opacity .18s ease, border-color .18s ease;
+}
+
+/* Sidebar collapsed state — my own addition, see .sidebar comment above.
+   Driven by body.sidebar-minimized (js/app.js toggleSidebarMinimized). */
+body.sidebar-minimized .sidebar {
+  max-width: 0;
+  border-right-color: transparent;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar-main {
+  grid-row-gap: 1.5em;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.return-minimize {
+  grid-column-gap: .5em;
+  width: 100%;
+  height: 2.4em;
+  color: var(--_color-variables---text-muted);
+  justify-content: flex-end;
+  align-items: center;
+  padding-left: .5em;
+  padding-right: .75em;
+  display: flex;
+}
+
+.return-btn {
+  grid-column-gap: .25em;
+  cursor: pointer;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
+  padding: .25em;
+  text-decoration: none;
+  display: flex;
+}
+
+.return-btn:hover {
+  border-radius: .25em;
+}
+
+.return-icon {
+  grid-row-gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 1.2em;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+
+
+.return-label {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: .9em;
+  font-weight: 500;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.minimize-toggle {
+  grid-row-gap: 10px;
+  cursor: pointer;
+  flex-flow: row;
+  justify-content: center;
+  align-items: stretch;
+  width: 1em;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.minimize-toggle:hover {
+  color: var(--_color-variables---text);
+}
+
+.minimize-toggle.side-bar {
+  display: flex;
+}
+
+.minimize-toggle.main {
+  display: none;
+}
+
+/* Shows the header's "expand" toggle once the sidebar is collapsed — the
+   literal pairing (.side-bar shown / .main hidden by default) implies this
+   swap; which state is "on" by default is my own addition since the
+   toggle itself isn't wired in the static capture. */
+body.sidebar-minimized .minimize-toggle.main {
+  display: flex;
+}
+
+
+
+.sidebar-btn-wrapper {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.sidebar-btn {
+  grid-column-gap: .5em;
+  cursor: pointer;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 2.8em;
+  padding-left: .75em;
+  padding-right: .75em;
+  text-decoration: none;
+  transition: all .2s;
+  display: flex;
+}
+
+.sidebar-btn:hover {
+  background-color: var(--_color-variables---hover-fill);
+}
+
+.sidebar-btn.active {
+  background-color: var(--_color-variables---active-fill-accent);
+  color: var(--_color-variables---dexter);
+}
+
+.sidebar-icon {
+  grid-row-gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  width: 1.2em;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+
+
+.sidebar-label {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: .875em;
+  font-weight: 500;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.side-bar-popup-trigger {
+  border: 0 solid #145aaa24;
+  border-top-width: 1px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 3.2em;
+  display: flex;
+  position: relative;
+}
+
+.settings-popup {
+  z-index: 3;
+  border: 1px solid var(--_color-variables---border-strong);
+  background-color: var(--_color-variables---base);
+  width: 90%;
+  box-shadow: 0 8px 16px 0 var(--_color-variables---shadow-color);
+  border-radius: 8px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-decoration: none;
+  display: flex;
+  position: absolute;
+  bottom: 3.5em;
+  overflow: hidden;
+}
+
+
+
+.sidebar-btn.popup-1 {
+  border-bottom: 1px solid var(--_color-variables---border-color);
+}
+
+.sidebar-btn.popup-trigger {
+  height: 100%;
+}
+
+.user-label {
+  grid-column-gap: .5em;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.user-image {
+  grid-column-gap: 10px;
+  border-radius: 100px;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+
+
+
+
+/* ---------- Content layout ---------- */
+.content {
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  position: relative;
+  overflow: auto;
+}
+
+.container {
+  flex-flow: column;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
+  padding: 1.5em 1em 1em;
+  text-decoration: none;
+  display: flex;
+  position: relative;
+}
+
+.container.timeline {
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  flex-flow: column;
+  display: flex;
+}
+
+/* :not(.is-active) needs 3 classes' worth of specificity to beat .container.timeline
+   (2 classes) above — without it, an inactive .container.timeline screen kept
+   rendering at display:flex instead of hiding, doubling up with whichever
+   screen was actually active. */
+
+
+
+
+
+
+/* ---------- Main header / title dropdown ---------- */
+/* position/z-index are not literal — added so .main-header stacks above
+   .toolbar-row's literal z-index:1 (copy-and-paste.css) now that a
+   dropdown lives in the header and can visually extend down over the
+   toolbar row beneath it (round 7, the Progress Add menu). No visual
+   change on its own, just resolves which one wins the overlap. */
+.main-header {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: .5em;
+  text-decoration: none;
+  display: flex;
+  position: relative;
+  z-index: 2;
+}
+
+.project-title {
+  flex: 0 auto;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.project-title.selector {
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  height: 2.4em;
+  color: var(--_color-variables---text-muted);
+  border-radius: .25em;
+  justify-content: space-between;
+  display: flex;
+}
+
+.title-label {
+  grid-column-gap: .25em;
+  grid-row-gap: .25em;
+  color: var(--_color-variables---text);
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1em;
+  text-decoration: none;
+  display: flex;
+}
+
+.title-header {
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
+.title {
+  color: var(--_color-variables---text);
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.dropdown-wrapper {
+  justify-content: center;
+  align-items: flex-start;
+  height: 2em;
+  display: block;
+  position: relative;
+}
+
+.dropdown-wrapper.title-dropdown {
+  height: auto;
+}
+
+.dropdown-toggle {
+  width: 2em;
+  height: 100%;
+  color: var(--_color-variables---text-sim);
+  cursor: pointer;
+  border-radius: .25em;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: .25em;
+  padding-right: .25em;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+
+
+.dropdown-toggle:hover {
+  background-color: var(--_color-variables---hover-fill);
+}
+
+.dropdown-toggle.preject-details {
+  width: 1.2em;
+  color: var(--_color-variables---text);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.dropdown-toggle.preject-details:hover {
+  border: 1px solid var(--_color-variables---border-color);
+}
+
+.option-wrapper {
+  z-index: 1;
+  border: 1px solid var(--_color-variables---border-strong);
+  width: 16em;
+  box-shadow: 0 8px 16px 0 var(--_color-variables---shadow-color);
+  border-radius: .5em;
+  margin-top: .5em;
+  position: absolute;
+  right: -.5em;
+  overflow: hidden;
+}
+
+
+
+.option-wrapper.project {
+  left: 0;
+  right: auto;
+}
+
+.dropdown-header {
+  border-bottom: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-wash);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  height: 2em;
+  color: var(--_color-variables---text-sim);
+  justify-content: center;
+  align-items: center;
+  font-size: .8em;
+  display: flex;
+}
+
+.dropdown-option {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  border-bottom: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-glass);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  width: 100%;
+  height: 3em;
+  color: var(--_color-variables---text);
+  cursor: pointer;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: .5em;
+  padding-right: .5em;
+  font-size: .9em;
+  transition: all .2s;
+  display: flex;
+}
+
+.dropdown-option.last {
+  border-bottom-style: none;
+}
+
+.dropdown-option:hover {
+  background-color: var(--_color-variables---hover-fill-strong);
+}
+
+.dropdown-icon {
+  justify-content: center;
+  align-items: center;
+  width: 1em;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  text-decoration: none;
+  display: flex;
+}
+
+
+
+.dropdown-check-icon {
+  opacity: 0;
+  order: -9999;
+  justify-content: flex-start;
+  align-items: center;
+  width: 1em;
+  display: flex;
+}
+
+
+
+.dropdown-check-icon.active {
+  opacity: 1;
+}
+
+.select-option {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Kantumruy Pro, sans-serif;
+  font-weight: 400;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+/* ---------- Timeline layout (two columns) ---------- */
+.col-wrapper {
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.col-main {
+  grid-row-gap: 1em;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 65%;
+  text-decoration: none;
+  display: flex;
+}
+
+.col-sub {
+  grid-row-gap: 1.5em;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 35%;
+  text-decoration: none;
+  display: flex;
+  position: sticky;
+  top: 1em;
+  right: 1em;
+}
+
+.project-header {
+  grid-row-gap: .75em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 1em;
+  text-decoration: none;
+  display: none;
+}
+
+.project-description {
+  color: var(--_color-variables---text-muted);
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 120%;
+  text-decoration: none;
+}
+
+/* Round 5 correction: this is literal display:none at base — I had that
+   wrong in round 4 (assumed there was "no rule that shows it at desktop"
+   and forced it always-visible, which was the actual bug). There IS a rule:
+   .col-sub is the desktop/tablet equivalent of this exact content, and the
+   max-width:767px media query below (also literal) is what switches
+   .pinned-wrapper on and .col-sub off for mobile/mobile-landscape. Per
+   Tobias: the two are meant to mirror each other one-at-a-time by
+   breakpoint, not both show at once — reverted to display:none here so
+   that's true again. width:100% stays since col-main needs it either way. */
+.pinned-wrapper {
+  display: none;
+  width: 100%;
+}
+
+/* Round 6 added a "No pinned milestones" empty-state message here; round 8
+   removes it per Tobias's note — the column just stays empty when nothing
+   is pinned, no message. */
+
+/* ---------- Milestone card (pinned + grid variants) ---------- */
+.milestone-card {
+  background-color: var(--_color-variables---surface-glass);
+  width: 100%;
+  box-shadow: 0 12px 20px 0 var(--_color-variables---shadow-color);
+  cursor: pointer;
+  border: 1px solid #145aaa24;
+  border-radius: 8px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: clamp(22em, 43.714em - 28.571vw, 26em);
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.milestone-card:hover {
+  border-color: var(--_color-variables---border-strong);
+  background-image: linear-gradient(180deg, var(--_color-variables---fade-0), var(--_color-variables---fade-100));
+}
+
+.milestone-card.pinned {
+  height: auto;
+}
+
+/* Round 4 added a border tint here for a pinned grid card; round 8 removes
+   it per Tobias's note — the grid card no longer even has its own pin-btn
+   (see renderMilestoneGridCard's options-btn), so this accent no longer
+   applies to anything. */
+
+.card-header {
+  width: 100%;
+  color: var(--_color-variables---text-muted);
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: .5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  display: flex;
+  /* Literal has overflow:hidden here. Round 8 override, not literal — the
+     new options-btn "..." menu (see .options-btn-wrapper) lives inside this
+     header and its dropdown needs to extend below it; with the literal
+     hidden it got clipped down to a couple of visible pixels (confirmed via
+     a Playwright screenshot before this was added). card-header's own
+     content is just two small fixed-size icons, so dropping the clip here
+     shouldn't visibly change anything else. */
+  overflow: visible;
+}
+
+.card-header.pinned {
+  justify-content: space-between;
+  align-items: center;
+  height: 3em;
+}
+
+.header-icon {
+  justify-content: flex-start;
+  align-items: center;
+  width: 1.2em;
+  transition: all .2s;
+  display: flex;
+}
+
+.header-icon:hover {
+  color: var(--_color-variables---text);
+}
+
+
+
+/* width is a deliberate override, not literal — copy-and-paste.html has
+   1.8em here; Tobias asked for 2.4em specifically (round 5). */
+.bookmark-icon {
+  width: 2.4em;
+  color: var(--_color-variables---coral);
+  margin-top: -.3em;
+  display: flex;
+}
+
+.bookmark-icon.blue {
+  color: var(--_color-variables---blue);
+}
+
+.bookmark-icon.pink {
+  color: var(--_color-variables---pink);
+}
+
+/* Round 10, my own addition — not part of the literal capture (confirmed:
+   copy-and-paste.css only ever defines .bookmark-icon base + .blue + .pink,
+   no .coral or .none variant at all). Base .bookmark-icon is already coral,
+   so "coral" needed no override — but that also meant "none" had no
+   override either, and silently rendered as coral too. That's the bug
+   Tobias reported ("switching a milestone from its current color to none
+   did nothing"): picking None only visibly changes anything if the
+   milestone was previously blue/pink; from coral (or the unset default,
+   which is also coral) it was a no-op. Given .color.none in the swatch
+   picker itself uses the same muted-text var for its own "no color" look,
+   reusing it here for consistency. */
+.bookmark-icon.none {
+  color: var(--_color-variables---text-muted);
+}
+
+.card-main {
+  grid-row-gap: .5em;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.milestone-bio {
+  grid-row-gap: 1em;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding: .5em 1em;
+  text-decoration: none;
+  display: flex;
+}
+
+.phase-title-header-2 {
+  grid-column-gap: 8px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.phase-title {
+  color: var(--_color-variables---text);
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: 1.25em;
+  font-weight: 600;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.due-date {
+  grid-column-gap: .25em;
+  color: var(--_color-variables---text-sim);
+  flex: 0 auto;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.date-icon {
+  justify-content: flex-start;
+  align-items: center;
+  width: .8em;
+  display: flex;
+}
+
+
+
+.date {
+  font-size: .9em;
+  font-weight: 500;
+  line-height: 100%;
+}
+
+.date.urgent {
+  color: var(--_color-variables---error);
+}
+
+.due-label {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: .9em;
+  font-weight: 500;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.setback-wrapper {
+  grid-column-gap: .25em;
+  grid-row-gap: .25em;
+  color: var(--_color-variables---attention);
+  flex-flow: column;
+  display: flex;
+}
+
+.card-section-label {
+  grid-column-gap: .25em;
+  color: var(--_color-variables---text-muted);
+  text-transform: uppercase;
+  flex: 0 auto;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: Kantumruy Pro, sans-serif;
+  display: flex;
+}
+
+.card-section-label.setback {
+  color: var(--_color-variables---attention);
+}
+
+.card-header-label {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: .8em;
+  font-weight: 600;
+  line-height: 1.4em;
+}
+
+.setback-description {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: .9em;
+  font-weight: 400;
+  line-height: 1.2em;
+  text-decoration: none;
+}
+
+/* The text styling literally lives on the wrapper (.milestone-description),
+   not the <p> inside it (.description-body just resets margin-bottom) — an
+   earlier pass had these two swapped. */
+/* color is a hardcoded #6b84a8 in the literal CSS, not one of the themed
+   --_color-variables---* tokens like everything else here — apparently a
+   one-off oversight on the live site (it never gets swapped to the dark
+   value), reproduced literally rather than "corrected" to var(--text-muted). */
+.milestone-description {
+  color: #6b84a8;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: .9em;
+  font-weight: 400;
+  line-height: 120%;
+  text-decoration: none;
+}
+
+.description-body {
+  margin-bottom: 0;
+}
+
+.milestone-tags {
+  grid-column-gap: .25em;
+  grid-row-gap: .25em;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.tag {
+  grid-column-gap: .5em;
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-wash);
+  height: 2.4em;
+  color: var(--_color-variables---text-sim);
+  border-radius: 4px;
+  flex: 0 auto;
+  justify-content: center;
+  align-items: center;
+  padding: .25em .5em;
+  font-size: .8em;
+  text-decoration: none;
+  display: flex;
+}
+
+.tag.urgent {
+  border-color: var(--_color-variables---border-error);
+  background-color: var(--_color-variables---surface-error);
+  color: var(--_color-variables---error);
+}
+
+.tag-icon {
+  justify-content: center;
+  align-items: center;
+  width: .7em;
+  text-decoration: none;
+  display: flex;
+}
+
+
+
+.card-section {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.card-section-label.tasks {
+  border-bottom: 1px solid var(--_color-variables---border-color);
+  width: 100%;
+  height: 2.5em;
+  padding-left: 1em;
+}
+
+.tasklist.card {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.tasklist {
+  border-top: 1px solid var(--_color-variables---border-color);
+  flex-flow: column;
+  width: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
+  display: flex;
+}
+
+.tasklist-row {
+  grid-column-gap: .75em;
+  border-bottom: 1px solid var(--_color-variables---border-color);
+  cursor: pointer;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  min-height: 2.5em;
+  padding: 1em;
+  transition: all .2s;
+  display: flex;
+}
+
+.tasklist-row:hover {
+  background-color: var(--_color-variables---hover-fill);
+}
+
+
+
+.check-marker {
+  grid-column-gap: 10px;
+  border: 1px solid var(--_color-variables---border-strong);
+  border-radius: .25em;
+  justify-content: center;
+  align-items: center;
+  width: 1em;
+  height: 1em;
+  display: flex;
+}
+
+
+
+
+
+.task-header {
+  justify-content: space-between;
+  align-self: stretch;
+  align-items: center;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  display: flex;
+}
+
+.header-label {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: .9em;
+  font-weight: 400;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.card-footer {
+  border-top: 1px solid var(--_color-variables---border-color);
+  width: 100%;
+  height: 3em;
+  color: var(--_color-variables---text-muted);
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1em;
+  padding-right: 1em;
+  display: flex;
+  overflow: hidden;
+}
+
+.attachment-count {
+  grid-column-gap: .25em;
+  flex: 0 auto;
+  justify-content: flex-start;
+  align-items: center;
+  height: 26px;
+  text-decoration: none;
+  display: flex;
+}
+
+.footer-icon {
+  justify-content: flex-start;
+  align-items: center;
+  width: 1em;
+  display: flex;
+}
+
+
+
+.counter-number {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: .875em;
+  font-weight: 600;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.reactions-wrapper {
+  grid-column-gap: .5em;
+  flex: 0 auto;
+  justify-content: flex-start;
+  align-items: center;
+  height: 26px;
+  text-decoration: none;
+  display: flex;
+}
+
+/* ---------- Timeline activity cards ---------- */
+.timeline-card {
+  grid-row-gap: 1em;
+  background-color: var(--_color-variables---surface-glass);
+  width: 100%;
+  box-shadow: 0 8px 16px 0 var(--_color-variables---shadow-color);
+  border-radius: 1em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding: 1em;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.user-name {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Kantumruy Pro, sans-serif;
+  font-weight: 500;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.card-body {
+  grid-row-gap: .5em;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.card-main-header {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.1em;
+  line-height: 1.4em;
+}
+
+.card-main-body {
+  width: 100%;
+  color: var(--_color-variables---text);
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: .9em;
+  font-weight: 400;
+  line-height: 1.4em;
+  text-decoration: none;
+}
+
+.preview {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  background-color: var(--_color-variables---surface-glass);
+  height: auto;
+  color: var(--_color-variables---text-sim);
+  border-radius: .5em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  overflow: hidden;
+}
+
+
+
+.approval-wrapper {
+  grid-column-gap: .5em;
+  justify-content: flex-start;
+  align-items: center;
+  height: 2.4em;
+  text-decoration: none;
+  display: flex;
+}
+
+.approval-btn {
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-wash);
+  height: 100%;
+  color: var(--_color-variables---text-sim);
+  cursor: pointer;
+  border-radius: 6px;
+  flex: 0 auto;
+  justify-content: center;
+  align-items: center;
+  padding-left: .75em;
+  padding-right: .75em;
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: .9em;
+  text-decoration: none;
+  display: flex;
+}
+
+/* Order matters: :hover and .approve are equal specificity, so .approve must
+   come after :hover in source order for the Approve button to keep its
+   purple background on hover instead of being overridden by the plain wash —
+   matching the live site's rule order exactly. */
+.approval-btn:hover {
+  background-color: var(--_color-variables---hover-fill);
+}
+
+.approval-btn.approve {
+  background-color: var(--_color-variables---dexter);
+  color: var(--_color-variables---white);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ---------- Progress screen: toolbar ---------- */
+
+
+.task-main-col {
+  grid-row-gap: 1em;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.toolbar-row {
+  z-index: 1;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.toolbar-row.progress {
+  justify-content: flex-end;
+}
+
+.sort-wrapper {
+  grid-column-gap: 1em;
+  flex: 0 auto;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.filter-wrapper {
+  grid-column-gap: .25em;
+  flex: 0 auto;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.dropdown-label {
+  color: var(--_color-variables---text-muted);
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: .9em;
+  font-weight: 400;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.view-toggle {
+  background-color: var(--_color-variables---scrim);
+  border-radius: 4px;
+  flex: 0 auto;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+  position: relative;
+}
+
+.toggle-option {
+  z-index: 1;
+  width: 2em;
+  height: 2em;
+  color: var(--_color-variables---white);
+  cursor: pointer;
+  border-radius: .25em;
+  justify-content: center;
+  align-items: center;
+  padding-left: .6em;
+  padding-right: .6em;
+  text-decoration: none;
+  display: flex;
+  position: relative;
+}
+
+.toggle-option:hover {
+  background-color: var(--_color-variables---hover-fill);
+}
+
+
+
+
+
+.block-slider {
+  z-index: 0;
+  background-color: var(--_color-variables---dexter);
+  border-radius: .25em;
+  width: 2em;
+  height: 2em;
+  position: absolute;
+  left: 0;
+  /* Dynamic slide — round 4. Literal's own .block-slider/.block-slider.progress
+     pair is a static left/right swap that (per your capture) just reflected
+     whichever toggle-option happened to be selected in the Designer when
+     each screen was captured, not a live indicator — copy-and-paste.html
+     hardcodes "progress" on the Progress screen's slider and nothing on
+     the Files screen's, regardless of which option is .active. You've now
+     said it should actually track the selected option, so this uses
+     transform instead of the literal left/right swap (so it can animate),
+     driven by .block-slider.is-active-2 (js/app.js setViewMode). Both
+     .toggle-option elements are the same width, so translateX(100%) moves
+     it exactly one option over — "100% horizontally" per your note. */
+  transform: translateX(0);
+  transition: transform .2s ease;
+}
+
+.block-slider.is-active-2 {
+  transform: translateX(100%);
+}
+
+.button {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-glass);
+  cursor: pointer;
+  border-radius: .25em;
+  justify-content: center;
+  align-items: center;
+  height: 2.4em;
+  padding-left: .5em;
+  padding-right: .5em;
+  text-decoration: none;
+  display: flex;
+}
+
+.button.add-new {
+  background-color: var(--_color-variables---dexter);
+  width: 2.4em;
+  color: var(--_color-variables---white);
+}
+
+
+
+/* ---------- Milestone grid ---------- */
+.milestone-grid {
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-columns: 1fr;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 2em;
+  padding-left: 1em;
+  padding-right: 1em;
+  display: grid;
+}
+
+/* ---------- Tasklist (grouped rows, progress screen) ---------- */
+.tasklist-row-grid {
+  grid-column-gap: .75em;
+  grid-row-gap: 1em;
+  border-top: 1px none var(--_color-variables---border-color);
+  border-bottom: 1px solid var(--_color-variables---border-color);
+  flex-wrap: wrap;
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr auto;
+  grid-auto-columns: 1fr;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding: 1em;
+  text-decoration: none;
+  display: grid;
+}
+
+.tasklist-row-grid:hover {
+  background-color: var(--_color-variables---hover-fill);
+}
+
+.tasklist-row-grid.last {
+  border-bottom-style: none;
+}
+
+.tasklist-row-grid.milestone {
+  grid-column-gap: .75em;
+  grid-row-gap: 1em;
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr auto;
+  grid-auto-columns: 1fr;
+  display: grid;
+}
+
+.tasklist-row-grid.agent-approval {
+  grid-template-columns: auto 1fr auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+.tasklist-row-header {
+  grid-column-gap: 10px;
+  cursor: pointer;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+/* My own addition — shows a row's description under its title when "Show
+   description in tasklist" is toggled on in the task-detail overlay. No
+   literal capture of this state exists (it's a real feature we're wiring up
+   per your approval, not a static visual from the source). */
+
+
+
+
+.marker {
+  width: 1.5em;
+}
+
+
+
+.claude-icon {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+
+
+.drag-options {
+  grid-column-gap: 10px;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  width: 22px;
+  height: 22px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  text-decoration: none;
+  display: flex;
+}
+
+
+
+/* literal — real hosted asset (ellipsis-vertical-solid-1.svg), sized by its
+   own width/height attributes (3x14), not re-drawn or rescaled */
+.down-1 {
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.tasklist-row-cta {
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  min-height: 2em;
+  text-decoration: none;
+  display: flex;
+}
+
+.milestone-label {
+  grid-column-gap: 10px;
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-wash);
+  height: 2em;
+  color: var(--_color-variables---text-muted);
+  text-transform: uppercase;
+  border-radius: .25em;
+  flex: 0 auto;
+  justify-content: center;
+  align-items: center;
+  padding-left: .75em;
+  padding-right: .75em;
+  font-family: Kantumruy Pro, sans-serif;
+  font-weight: 500;
+  text-decoration: none;
+  display: flex;
+}
+
+.milestone-label.coral {
+  border: 1px solid var(--_color-variables---border-coral);
+  background-color: var(--_color-variables---surface-coral);
+  color: var(--_color-variables---coral);
+  cursor: pointer;
+}
+
+.milestone-label.blue {
+  border: 1px solid var(--_color-variables---border-blue);
+  background-color: var(--_color-variables---surface-blue);
+  color: var(--_color-variables---blue);
+}
+
+.milestone-label.pink {
+  border-color: var(--_color-variables---border-pink);
+  background-color: var(--_color-variables---surface-pink);
+  color: var(--_color-variables---pink);
+}
+
+.milestone-label-header {
+  font-size: .8em;
+}
+
+.counter-wrapper {
+  justify-content: flex-end;
+  align-items: center;
+  display: flex;
+}
+
+.attachment-count.row-item {
+  color: var(--_color-variables---text-muted);
+}
+
+/* ---------- Tasklist grid view mode (view-toggle "grid" state — my own
+   addition; the live site's grid icon exists but I don't have a literal
+   capture of what it switches to, so this is a reasonable, flagged guess) */
+
+
+
+
+/* ---------- Chat trigger (decorative — chat panel out of scope for this demo) ---------- */
+.chat-trigger {
+  z-index: 5;
+  background-color: var(--_color-variables---dexter);
+  width: 3.2em;
+  height: 3.2em;
+  box-shadow: 0 4px 8px 0 var(--_color-variables---shadow-color);
+  color: var(--_color-variables---white);
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  padding-left: .6em;
+  padding-right: .6em;
+  transition: all .2s;
+  display: flex;
+  position: fixed;
+  inset: auto 2em 2em auto;
+}
+
+
+
+.chat-trigger:hover {
+  width: 3.5em;
+  height: 3.5em;
+}
+
+/* Chat popover — my own addition (round 4), not part of the literal
+   capture (only the floating trigger icon was captured). Reuses the
+   existing Timeline-card avatar/message look (.user-label, .card-main-body)
+   for visual consistency instead of inventing a new component. Toggled by
+   js/app.js; click-outside-to-close matches the pattern used for the other
+   small popovers (#settingsPopup, the title/milestone dropdowns) below. */
+.chat-popover {
+  z-index: 6;
+  background-color: var(--_color-variables---base);
+  background-image: linear-gradient(180deg, var(--_color-variables---fade-0), var(--_color-variables---fade-100));
+  border: 1px solid var(--_color-variables---border-strong);
+  box-shadow: 0 8px 16px 0 var(--_color-variables---shadow-color);
+  border-radius: .75em;
+  width: 18em;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  grid-row-gap: .5em;
+  row-gap: .5em;
+  position: fixed;
+  inset: auto 2em 6em auto;
+  transform: translateY(.5em);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .18s ease, opacity .18s ease;
+}
+
+.chat-popover:not([hidden]) {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Round 10 fix — this used to force a purple background-color/color pairing
+   (active-fill-accent / --dexter, #a58ce8) onto the popover's avatar circle.
+   Tobias asked for that purple removed and "the regular Dexter user image"
+   used instead — the plain .user-image treatment every other Dexter avatar
+   on the page already gets (see avatarFor(), Timeline cards/tasklist marker):
+   no background, icon color inherited from its normal text color. Deleting
+   this override, rather than replacing it with a differently-colored one,
+   is what makes this avatar match those. */
+
+/* ---------- Disabled affordances (my own addition — a handful of
+   out-of-scope, non-serverless-able features: Back to home (no other page
+   exists in this demo), the Drive connect/choose-folder CTAs (hidden
+   anyway — this demo is in the "Drive already connected" state), the
+   task-detail pin-btn (tasks aren't pinnable in this data model), the
+   task-detail Attachments tab (renderAttachmentsSection — tasks have no
+   per-item files concept in this data model, unlike milestones; see
+   renderMilestoneAttachmentsSection), and Files' grid view toggle (no grid
+   layout was captured for the Files screen). Round 8: the Files screen's
+   own file-rows are no longer in this list — they navigate now (open a
+   folder) per Tobias's note that the screen shouldn't look greyed out/non-
+   functional. Round 9: the Progress Filter dropdown and the milestone-
+   detail Attachments rows/add-btn are no longer in this list either — see
+   renderProgressFilterOptions and renderMilestoneAttachmentsSection.
+   Everything else that used to be [data-disabled] here was enabled in
+   round 4.) */
+[data-disabled="true"] {
+   /* !important: several elements this is applied to (e.g. .file-row) declare
+      their own literal cursor:pointer later in this file, at equal
+      specificity — without !important, source order would let that literal
+      rule win and silently cancel this one (found via round-4 Playwright
+      check: .file-row computed cursor stayed "pointer" instead of
+      "not-allowed" until this was added). */
+   cursor: not-allowed !important;
+   opacity: 0.5;
+}
+
+/* ---------- Detail overlay (milestone / task / Project Details / Project
+   Settings panels) ----------
+   Literal values from your re-capture's hidden overlays:
+   .detail-form.milestones, .detail-form.tasks, and both .settings-wrapper
+   variants ("Edit Project" / Project Details, and "Project Settings" /
+   Appearance-Connectors-Account). Content is rendered by JS (js/app.js
+   renderDetailOverlay) since it varies per item, but every class name and
+   value below is literal. */
+.overlay {
+  z-index: 10;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  background-color: #1e253340;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  padding: 1em;
+  text-decoration: none;
+  display: none;
+  position: absolute;
+  inset: 0%;
+  overflow: hidden;
+}
+
+
+
+.slot {
+  justify-content: flex-end;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.detail-form {
+  grid-row-gap: 24px;
+  background-color: var(--_color-variables---base);
+  background-image: linear-gradient(180deg, var(--_color-variables---fade-0), var(--_color-variables---fade-100));
+  border: 1px solid #145aaa47;
+  border-radius: 1em;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 36em;
+  height: 100%;
+  margin-bottom: 0;
+  padding: 1.5em;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+  /* Slide-in animation — my own addition (round 4), not part of the literal
+     capture (the real show/hide is Webflow IX2, which a static export can't
+     replay). .detail-form docks flush-right inside .slot, so it slides in
+     from that edge; #detailOverlay.is-open is toggled by js/app.js a frame
+     after the overlay becomes visible, and removed before it's hidden
+     again, so this can animate both directions. */
+  transform: translateX(2em);
+  opacity: 0;
+  transition: transform .22s ease, opacity .22s ease;
+}
+
+.overlay.is-open .detail-form {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Round 10, my own addition — not part of the literal capture: the
+   milestone-delete confirmation popup (see the #confirmOverlay HTML
+   comment). A small centered card rather than the .slot/.detail-form
+   flush-right panel, since .overlay already centers its content by
+   default — .detail-form is what overrides that to dock right, so simply
+   not using .detail-form here is enough to get a centered dialog for free.
+   Colors/border/shadow reuse .chat-popover's own base+fade+border+shadow
+   recipe for visual consistency with this build's other invented popover.
+   Same is-open fade/scale transition approach as .overlay.is-open
+   .detail-form above, toggled by the new open/closeDeleteMilestoneConfirm
+   functions in js/app.js. */
+.confirm-popup {
+  background-color: var(--_color-variables---base);
+  background-image: linear-gradient(180deg, var(--_color-variables---fade-0), var(--_color-variables---fade-100));
+  border: 1px solid var(--_color-variables---border-strong);
+  box-shadow: 0 8px 16px 0 var(--_color-variables---shadow-color);
+  border-radius: 1em;
+  width: 24em;
+  max-width: 100%;
+  padding: 1.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  grid-row-gap: .5em;
+  row-gap: .5em;
+  transform: scale(.96);
+  opacity: 0;
+  transition: transform .18s ease, opacity .18s ease;
+}
+
+.overlay.is-open .confirm-popup {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.confirm-popup-icon {
+  width: 2.25em;
+  height: 2.25em;
+  border-radius: 100px;
+  background-color: var(--_color-variables---surface-error);
+  color: var(--_color-variables---error);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .5em;
+}
+
+.confirm-popup-title {
+  color: var(--_color-variables---text);
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 0;
+}
+
+.confirm-popup-body {
+  color: var(--_color-variables---text-sim);
+  margin: 0;
+}
+
+.confirm-popup-actions {
+  justify-content: flex-end;
+  align-items: center;
+  grid-column-gap: .5em;
+  column-gap: .5em;
+  align-self: stretch;
+  display: flex;
+  margin-top: .5em;
+}
+
+.confirm-popup-actions .approval-btn {
+  height: 2.4em;
+  min-width: 5.5em;
+}
+
+/* Destructive variant of .approval-btn (which otherwise only ever has the
+   purple .approve state) — reuses the --error red already established
+   elsewhere in this file (the Urgent tag, validation states) rather than
+   inventing a new color, since there's no literal "danger button" anywhere
+   in the capture to copy from. */
+.approval-btn.danger {
+  background-color: var(--_color-variables---error);
+  color: var(--_color-variables---white);
+}
+
+/* Literal rules (copy-and-paste.css:2765-2779) — never carried over. This is
+   the real fix for the attachments section needing a scroll to reach: the
+   base .detail-form is overflow:hidden, and these two variant classes are
+   what switch it to overflow:auto so a tall panel actually scrolls instead
+   of clipping. (Their :where(.w-variant-...) siblings in the literal file
+   are Webflow's own A/B-variant plumbing — no such variant class exists in
+   this rebuild, so there's nothing for them to match; left out as inert.) */
+.detail-form.tasks {
+  overflow: auto;
+}
+
+.detail-form.milestones {
+  background-image: linear-gradient(180deg, var(--_color-variables---fade-0), var(--_color-variables---fade-100));
+  overflow: auto;
+}
+
+.detail-wrapper {
+  grid-row-gap: 2em;
+  flex-flow: column;
+  flex: 1;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  display: flex;
+}
+
+.icon-row {
+  width: 100%;
+  color: var(--_color-variables---text-sim);
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+/* width is a deliberate override, not literal — copy-and-paste.html has
+   1.5em here; Tobias asked for 1.2em specifically (round 6). */
+.pin-btn {
+  cursor: pointer;
+  width: 1.2em;
+  display: flex;
+}
+
+.pin-btn:hover {
+  color: var(--_color-variables---text);
+}
+
+/* Round 5 gave the Progress-grid card's own pin-btn .5em top padding;
+   round 8 removes that pin-btn entirely (see .options-btn-wrapper below),
+   so this rule no longer matches anything and is removed with it. The
+   milestone-detail overlay's pin-btn (.pin-btn alone, above) is untouched. */
+
+/* ---------- Options menu (card/row "..." button) ----------
+   Not part of the literal capture — round 8 replaces the Progress-grid
+   card's pin-btn and the tasklist row's drag-options icon with this small
+   "..." menu (its one option is Delete; there was never a delete
+   affordance to begin with). Reuses the existing dropdown-wrapper/
+   option-wrapper/dropdown-option component (same one the Progress Add and
+   Files Sort/Group dropdowns already use — see project.html), just sized
+   down to sit inline where the pin-btn/drag-options icon used to be.
+   options-btn-wrapper's 22px/22px box matches .drag-options above, so
+   swapping one for the other on a tasklist row doesn't shift any layout. */
+.options-btn-wrapper {
+  height: 22px;
+  width: 22px;
+  display: block;
+  position: relative;
+}
+
+.options-btn {
+  cursor: pointer;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  width: 22px;
+  height: 22px;
+  display: flex;
+}
+
+.options-btn:hover {
+  background-color: var(--_color-variables---hover-fill-strong);
+  color: var(--_color-variables---text);
+}
+
+.options-btn-wrapper .option-wrapper {
+  width: 9em;
+}
+
+/* Round 9 — same treatment round 5 gave the old grid pin-btn (".milestone-grid
+   .pin-btn { padding-top: .5em; }", removed in round 8 along with that
+   button): Tobias asked for .5em top padding on the milestone card's own
+   options-btn specifically, not the tasklist row's, so scoped to
+   .card-header rather than the shared .options-btn-wrapper rule above. */
+.card-header .options-btn-wrapper {
+  padding-top: .5em;
+}
+
+/* Grid-view tasklist placement (see the "Tasklist row grid placement"
+   comment further down) — mirrors .drag-options' grid-row: span 2 now
+   that this sits in the same slot on a tasklist row. */
+.options-btn-wrapper {
+  grid-row: span 2;
+}
+
+
+
+.close-btn {
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  width: .8em;
+  display: flex;
+}
+
+.close-btn:hover {
+  color: var(--_color-variables---text);
+}
+
+
+
+/* font-family added — not part of literal's own .task-title rule. Literal
+   gets Nunito Sans here from a global `button, input, optgroup, select,
+   textarea { font: inherit }` reset (in Webflow's normalize.css) that this
+   rebuild deliberately doesn't carry, since it's platform boilerplate, not
+   a custom style. .detail-description sets its own font-family directly and
+   renders correctly; .task-title didn't, so without the reset it fell back
+   to the browser's default textarea font. Setting it explicitly here to
+   match, per your instruction. */
+.task-title {
+  width: 100%;
+  min-height: 2em;
+  color: var(--_color-variables---text);
+  text-align: left;
+  background-color: #0000;
+  border: 1px #000;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 0;
+  padding: .25em 0;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 2em;
+  line-height: 100%;
+  display: flex;
+  overflow-x: hidden;
+}
+
+
+
+.detail-section-bio {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.detail-row {
+  grid-column-gap: .5em;
+  border-bottom: 1px solid var(--_color-variables---border-color);
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 3.5em;
+  padding-top: .25em;
+  padding-bottom: .25em;
+  display: flex;
+  overflow: hidden;
+}
+
+.detail-row.tags {
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: auto;
+  min-height: 3.5em;
+  padding-top: .75em;
+  padding-bottom: .75em;
+}
+
+.detail-dropdown-row {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  border-bottom: 1px solid var(--_color-variables---border-color);
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 3.5em;
+  display: flex;
+  position: relative;
+}
+
+.detail-label {
+  grid-column-gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+  width: 20%;
+  height: 2em;
+  text-decoration: none;
+  display: flex;
+}
+
+.detail-row-label {
+  color: var(--_color-variables---text-muted);
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: .9em;
+  font-weight: 400;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.assignees {
+  grid-column-gap: 4px;
+  flex: 0 auto;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.assignee-pfp {
+  border: .25em solid var(--_color-variables---base);
+  background-color: var(--_color-variables---surface-glass);
+  width: 2.8em;
+  height: 2.8em;
+  color: var(--_color-variables---text-sim);
+  border-radius: 100%;
+  flex-flow: column;
+  justify-content: center;
+  align-items: stretch;
+  margin-left: -.6em;
+  padding-left: .5em;
+  padding-right: .5em;
+  display: flex;
+}
+
+.assignee-pfp.first {
+  margin-left: 0;
+}
+
+
+
+.detail-add-btn {
+  grid-row-gap: 10px;
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-wash);
+  width: 2em;
+  height: 2em;
+  color: var(--_color-variables---text-muted);
+  cursor: pointer;
+  border-radius: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: .5em;
+  padding-right: .5em;
+  text-decoration: none;
+  display: flex;
+}
+
+
+
+.detail-add-btn:hover {
+  background-color: var(--_color-variables---hover-fill-strong);
+}
+
+.tag-wrapper {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  flex-flow: column;
+  width: 78%;
+  display: flex;
+}
+
+/* Literal rule (copy-and-paste.css:2970). Markup (TAG_INPUT_HTML in
+   js/app.js) added 2026-08-29 once Tobias added the real captured <input>
+   to copy-and-paste.html — a sibling of .detail-phase-tags inside
+   .tag-wrapper, per copy-and-paste.html:252-253. */
+.tag-input {
+  background-color: var(--surface-glass);
+  border: 1px solid var(--_color-variables---border-strong);
+  border-radius: 0.25em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 3em;
+  margin-bottom: 0;
+  padding: 0 1em;
+  font-size: .9em;
+  text-decoration: none;
+  overflow: hidden;
+  color: var(--text);
+  /* Same pattern as .option-wrapper below: literal's own capture only ever
+     shows one static state (this one happened to be open), so there's no
+     literal "closed" value to carry over — closed-by-default + .is-open
+     restoring literal's display:block is our own addition, toggled by the
+     tag-toggle "+" button. */
+  display: none;
+}
+
+.text-input {
+  background-color: var(--surface-glass);
+  border: 1px solid var(--_color-variables---border-strong);
+  border-radius: 0.25em;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 3em;
+  margin-bottom: 0;
+  padding: 0 1em;
+  font-size: .9em;
+  text-decoration: none;
+  overflow: hidden;
+  color: var(--text);
+}
+
+.tag-input.is-open {
+  display: block;
+}
+
+.detail-phase-tags {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.detail-tag {
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  background-color: var(--_color-variables---surface-wash);
+  height: 2em;
+  color: var(--_color-variables---text-muted);
+  cursor: default;
+  border: 1px solid #145aaa24;
+  border-radius: 4px;
+  flex: 0 auto;
+  justify-content: center;
+  align-items: center;
+  padding-left: .5em;
+  padding-right: .5em;
+  text-decoration: none;
+  display: flex;
+}
+
+.detail-tag.urgent {
+  border-color: var(--_color-variables---border-error);
+  background-color: var(--_color-variables---surface-error);
+  color: var(--_color-variables---error);
+}
+
+.tag-label-wrapper {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  display: flex;
+}
+
+.tag-label {
+  color: var(--_color-variables---text-muted);
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: .9em;
+  font-weight: 400;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+/* Literal rule (copy-and-paste.css:2966) — never carried over, so the
+   "Urgent" chip's own .tag-label.urgent color (red) was being overridden
+   back to .tag-label's muted grey. */
+.tag-label.urgent {
+  color: var(--_color-variables---error);
+}
+
+
+
+.remove-tag-btn {
+  cursor: pointer;
+  width: .5em;
+  display: flex;
+}
+
+
+
+.date-toggle {
+  grid-column-gap: 1em;
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-wash);
+  width: 10em;
+  height: 2.4em;
+  color: var(--_color-variables---text-sim);
+  cursor: pointer;
+  border-radius: 4px;
+  flex: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-family: Nunito Sans, sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+  display: flex;
+}
+
+.date-toggle:hover {
+  background-color: var(--_color-variables---hover-fill);
+}
+
+/* My own addition — not part of the literal capture. .date-toggle's real
+   date-picker interaction (an open calendar state) was never captured, so
+   this drives it with a native <input type="date"> instead: present in the
+   DOM for real functionality, but visually hidden so only the literal
+   .date text + .date-icon show. Clicking .date-icon calls .showPicker() on
+   it (js/app.js); its own change event updates the .date text. */
+.date-toggle input[type="date"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+
+.end-by-toggle-wrapper {
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-wash);
+  border-radius: .25em;
+  justify-content: flex-start;
+  align-items: center;
+  height: 2em;
+  display: flex;
+  position: relative;
+}
+
+.end-by-toggle {
+  z-index: 1;
+  width: 5em;
+  position: relative;
+}
+
+.end-by-toggle-label {
+  color: var(--_color-variables---text-sim);
+  text-align: center;
+  cursor: pointer;
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: .9em;
+}
+
+.end-by-toggle-label.active {
+  color: var(--_color-variables---white);
+}
+
+.end-by-toggle-slider {
+  z-index: 0;
+  background-color: var(--_color-variables---dexter);
+  border-radius: .25em;
+  width: 5em;
+  height: 100%;
+  position: absolute;
+}
+
+.duration-toggle {
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-wash);
+  width: 10em;
+  height: 2.4em;
+  color: var(--_color-variables---text-sim);
+  cursor: default;
+  border-radius: .25em;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: .5em;
+  padding-right: .5em;
+  display: flex;
+}
+
+.increase-decrease {
+  flex-flow: column;
+  display: flex;
+}
+
+.pointer {
+  width: 1.4em;
+  height: 1.4em;
+  color: var(--_color-variables---text);
+  cursor: pointer;
+  border-radius: .25em;
+  justify-content: center;
+  align-items: center;
+  padding-left: .2em;
+  padding-right: .2em;
+  display: flex;
+}
+
+
+
+.pointer:hover {
+  background-color: var(--_color-variables---hover-fill-strong);
+  border-radius: .1em;
+}
+
+.enable-toggle {
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---dexter);
+  cursor: pointer;
+  border-radius: 100px;
+  justify-content: flex-end;
+  align-items: center;
+  width: 2.2em;
+  padding: .1em;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.enable-toggle.diabled {
+  background-color: var(--_color-variables---scrim);
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.toggle-dot {
+  background-color: var(--_color-variables---white);
+  border-radius: 100%;
+  width: 1em;
+  height: 1em;
+}
+
+.color-wrapper {
+  grid-column-gap: .4em;
+  grid-row-gap: .4em;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+}
+
+.color {
+  border: .2em solid var(--_color-variables---surface-glass);
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 1.6em;
+  height: 1.6em;
+  display: flex;
+  cursor: pointer;
+}
+
+.color.none {
+  border-color: var(--_color-variables---border-strong);
+  color: var(--_color-variables---text-muted);
+  padding-left: .4em;
+  padding-right: .4em;
+}
+
+
+
+.color.coral {
+  background-color: var(--_color-variables---coral);
+}
+
+.color.blue {
+  background-color: var(--_color-variables---blue);
+}
+
+.color.pink {
+  background-color: var(--_color-variables---pink);
+}
+
+/* is-active ring is my own addition — the live CSS has no distinct "selected"
+   state for these swatches that I could find in your capture */
+
+
+.detail-desco {
+  grid-row-gap: 8px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.section-header {
+  color: var(--_color-variables---text);
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: 1.2em;
+  font-weight: 500;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.detail-description {
+  width: 100%;
+  height: auto;
+  min-height: 5em;
+  color: var(--_color-variables---text-muted);
+  background-color: #0000;
+  border: 1px #000;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.4em;
+  text-decoration: none;
+}
+
+/* Literal rule (copy-and-paste.css:4499) — was never carried over when this
+   file was rebuilt, even though both textareas already carry the class in
+   copy-and-paste.html. Porting it over now that the class is actually
+   applied in app.js. */
+.text-area {
+  resize: none;
+  box-sizing: border-box;
+  field-sizing: content;
+  overflow-y: auto;
+  color: var(--text);
+}
+
+/* My own addition — literal never captures a focused state, and these are
+   real <textarea>/<input> elements, so without this the browser's own
+   default focus ring (a blue outline) shows up on click/tab, which isn't
+   part of the design. Keeps every text field's border identical whether
+   selected or not. */
+.text-area:focus,
+.tag-input:focus,
+.text-input:focus {
+  outline: none;
+}
+
+
+
+/* flex-shrink:0 added: every other direct child of .detail-wrapper (icon-row,
+   task-title, detail-section-bio, detail-desco, save-btn) carries it in the
+   literal CSS; without it here too, this section was the one flex item with
+   no minimum size, so the flex layout crushed it down to a few pixels tall
+   whenever the form's total content exceeded the panel height, instead of
+   letting .detail-wrapper's own overflow-y:auto scroll the extra height. */
+.detail-content-section {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.tab-wrapper {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+/* Round 11, my own addition — renamed from the literal .tab-group (Tobias's
+   own name for it), and switched from a flex-start row (which only ever
+   held the "Attachments" tab label) to a space-between one now that the
+   Attachments tab-header also holds the add-btn on its far side — see
+   renderAttachmentsSection/renderMilestoneAttachmentsSection in js/app.js.
+   flex:0 auto (shrink-to-fit) dropped along with it, since a space-between
+   row needs to actually fill its parent's width to push the add-btn to the
+   far edge. */
+.tab-header {
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  flex-flow: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 0;
+  text-decoration: none;
+  display: flex;
+}
+
+.tab {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  justify-content: center;
+  align-items: center;
+  width: 10em;
+  height: 2.4em;
+  font-family: Kantumruy Pro, sans-serif;
+  font-weight: 500;
+  text-decoration: none;
+  display: flex;
+}
+
+.label-icon {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+
+
+.slider {
+  grid-column-gap: 10px;
+  background-color: var(--_color-variables---active-fill);
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 2px;
+  display: flex;
+  overflow: hidden;
+}
+
+.slider-line {
+  background-color: var(--_color-variables---dexter);
+  width: 10em;
+  height: 100%;
+  overflow: hidden;
+}
+
+.tab-content {
+  grid-column-gap: .75em;
+  grid-row-gap: .75em;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding-top: 16px;
+  text-decoration: none;
+  display: flex;
+}
+
+.empty-state {
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  width: 100%;
+  height: 8em;
+  color: var(--_color-variables---text-muted);
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  display: none;
+  overflow: hidden;
+}
+
+
+
+.add-btn {
+  grid-column-gap: 10px;
+  background-color: var(--_color-variables---dexter);
+  width: 2em;
+  height: 2em;
+  color: var(--_color-variables---white);
+  border-radius: 4px;
+  flex: 0 auto;
+  justify-content: center;
+  align-items: center;
+  padding-left: .25em;
+  padding-right: .25em;
+  text-decoration: none;
+  display: flex;
+}
+
+
+
+.add-btn.file-detail {
+  cursor: pointer;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.attachement-list {
+  width: 100%;
+}
+
+.file-row {
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  border-bottom: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-glass);
+  cursor: pointer;
+  grid-template-rows: auto;
+  grid-template-columns: auto 1fr .5fr .5fr .5fr;
+  grid-auto-columns: 1fr;
+  justify-content: flex-start;
+  place-items: center stretch;
+  width: 100%;
+  height: 3.2em;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-size: .9em;
+  display: grid;
+  overflow: hidden;
+  /* Round 9, my own addition — lets .is-nav-highlight below fade in/out
+     instead of snapping; also smooths the existing literal :hover swap
+     below, which had no transition of its own before. */
+  transition: background-color .3s ease;
+}
+
+.file-row:hover {
+  background-color: var(--_color-variables---hover-fill);
+}
+
+.file-row.detail {
+  background-color: #0000;
+  grid-template-columns: auto 1fr .5fr;
+}
+
+.file-row.detail:hover {
+  background-color: var(--_color-variables---hover-fill);
+}
+
+.file-row.last {
+  border-bottom-style: none;
+}
+
+/* Round 9, my own addition — brief flash applied to the row a milestone-
+   detail attachment click navigates to (see the open-attachment handler in
+   wireOverlayEvents), using the same accent wash var active/selected states
+   use elsewhere (--_color-variables---active-fill-accent), so it's obvious
+   which row the "take me to it" navigation landed on (fades via the
+   transition on .file-row above). Not part of the literal capture — this
+   demo has no separate file-preview pane to otherwise confirm that. */
+.file-row.is-nav-highlight {
+  background-color: var(--_color-variables---active-fill-accent);
+}
+
+.file-row-icon {
+  grid-column-gap: 10px;
+  width: 2em;
+  color: var(--_color-variables---text-muted);
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  text-decoration: none;
+  display: flex;
+}
+
+
+
+.file-row-icon.folder {
+  color: var(--_color-variables---dexter);
+}
+
+.file-info {
+  grid-column-gap: 8px;
+  height: 100%;
+  color: var(--_color-variables---text-muted);
+  flex: 0 auto;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.file-info.detail {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.file-name {
+  grid-column-gap: 10px;
+  color: var(--_color-variables---text);
+  flex: 0 auto;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+/* ---------- Files screen ---------- */
+.file-main-col {
+  grid-row-gap: 1.2em;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.file-list {
+  z-index: 0;
+  border: 1px solid var(--_color-variables---border-color);
+  border-radius: 8px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.file-header-row {
+  grid-column-gap: 1em;
+  border-bottom: 1px solid var(--_color-variables---border-color);
+  background-color: #6ea0e614;
+  grid-template-rows: auto;
+  grid-template-columns: auto 1fr .5fr .5fr .5fr;
+  grid-auto-columns: 1fr;
+  justify-content: flex-start;
+  place-items: center stretch;
+  width: 100%;
+  height: 3.2em;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-size: .9em;
+  display: grid;
+  overflow: hidden;
+}
+
+.button-wrapper {
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+}
+
+.button-label {
+  font-size: .8em;
+}
+
+.button-icon {
+  object-fit: cover;
+}
+
+.breadcrumb-nav {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+}
+
+.breadcrumb-item {
+  color: var(--_color-variables---text-muted);
+  cursor: pointer;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: .5em;
+  font-family: Nunito Sans, sans-serif;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.breadcrumb-item:hover {
+  background-color: var(--_color-variables---hover-fill);
+  border-radius: .25em;
+}
+
+.breadcrumb-item.active {
+  color: var(--_color-variables---text);
+  cursor: default;
+}
+
+.breadcrumb-item.active:hover {
+  background-color: #0000;
+}
+
+.nav-spacer {
+  color: var(--_color-variables---text-muted);
+  cursor: default;
+}
+
+/* .drive-cta-wrapper is display:none in the live CSS too — the captured page
+   is in the "Drive already connected, showing files" state, so the
+   connect/choose-folder prompts are built for fidelity but stay hidden,
+   exactly as on the real page. */
+.drive-cta-wrapper {
+  flex-flow: column;
+  flex: 1;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  display: none;
+}
+
+.drive-cta {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  flex-flow: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.cta-heading {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 2em;
+  line-height: 1.4em;
+}
+
+.paragraph {
+  width: 70%;
+  color: var(--_color-variables---text-muted);
+  text-align: center;
+}
+
+.cta-btn {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---white);
+  height: 2.4em;
+  box-shadow: 0 4px 5px 0 var(--_color-variables---shadow-color);
+  color: var(--_color-variables---dark);
+  border-radius: .25em;
+  justify-content: center;
+  align-items: center;
+  padding-left: 1em;
+  padding-right: 1em;
+  display: flex;
+}
+
+.cta-icon {
+  width: 1em;
+  display: flex;
+}
+
+.save-btn {
+  background-color: var(--_color-variables---dexter);
+  width: 8em;
+  height: 2.4em;
+  color: var(--_color-variables---white);
+  border-radius: .25em;
+  align-self: flex-end;
+  margin-top: 2em;
+  padding: 0;
+}
+
+
+
+.dropdown-toggle.detail {
+  grid-column-gap: .5em;
+  grid-row-gap: .5em;
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-wash);
+  width: auto;
+  min-width: 10em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.dropdown-toggle.detail:hover {
+  background-color: var(--_color-variables---hover-fill);
+}
+
+/* my own addition — without a fixed-width wrapper, the base rule
+   ".dropdown-toggle svg { width: 100% }" above stretches the chevron to fill
+   this toggle's full (auto/min-width:10em) box instead of sitting as a small
+   icon next to the label text */
+
+
+.dropdown-wrapper.detail {
+  height: 2.4em;
+  position: static;
+}
+
+.option-wrapper.detail {
+  flex-flow: column;
+  width: 78%;
+  display: none;
+  right: auto;
+}
+
+/* Round 11, my own addition. The Milestone picker (task-detail form) is the
+   only other user of .option-wrapper.detail, and its toggle sits near the
+   left edge of its row, so that dropdown opening rightward (the static-
+   position default .dropdown-wrapper.detail's position:static ancestor-
+   escape leaves it with, since right:auto above gives it no other anchor)
+   has never run off the panel. The Attachment picker's toggle now sits at
+   the tab-header's right edge instead (see the .tab-header CSS above), so
+   the same rightward default would run past the 36em-wide detail-form's
+   right edge — Tobias asked for it to "go left instead of right... like
+   the sort dropdown" (the Files/Progress toolbar dropdowns already open
+   leftward via .option-wrapper's own base right:-.5em rule, which isn't
+   available here since .detail resets it). A translateX flip, scoped only
+   to this specific picker via its .attachment-picker-wrapper class so the
+   Milestone picker elsewhere in the same form is untouched, shifts the box
+   left by its own rendered width — mirroring the toggle's static-position
+   left edge into a right edge instead, so it grows left from there. Kept as
+   a transform (not a right/left value) specifically because this dropdown's
+   containing block is an ancestor further up than its own toggle (that's
+   the whole point of position:static above — see that rule's comment) —
+   there's no nearby element whose edge a right/left value could anchor to,
+   but a transform doesn't need one; it just shifts wherever the box would
+   otherwise have painted. */
+.attachment-picker-wrapper .option-wrapper.detail {
+  transform: translateX(-100%);
+}
+
+
+
+/* ---------- Project Details / Project Settings panel ---------- */
+.settings-wrapper {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.settings-panel {
+  background-color: var(--_color-variables---base);
+  border-radius: 8px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 800px;
+  height: 480px;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+  /* Slide/scale-in animation — my own addition (round 4), same reasoning as
+     .detail-form above. This panel is centered rather than docked, so it
+     scales up slightly + fades instead of sliding sideways. */
+  transform: scale(.96) translateY(.5em);
+  opacity: 0;
+  transition: transform .22s ease, opacity .22s ease;
+}
+
+.overlay.is-open .settings-panel {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.setting-sidebar {
+  background-color: var(--_color-variables---surface-wash);
+  border: 0 solid #145aaa24;
+  border-right-width: 1px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 25%;
+  height: 100%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.settings-sidebar-item {
+  grid-column-gap: .25em;
+  grid-row-gap: .25em;
+  width: 100%;
+  height: 2.4em;
+  color: var(--_color-variables---dexter);
+  background-color: #6248d429;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: .5em;
+  padding-right: .5em;
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: .9em;
+  font-weight: 500;
+  text-decoration: none;
+  display: flex;
+}
+
+
+
+
+
+.settings-main {
+  grid-row-gap: 1.5em;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  padding: 1em;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+.settings-escape {
+  grid-column-gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.close-icon {
+  width: .8em;
+  color: var(--_color-variables---text-muted);
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+  /* cursor added — not part of literal's own .close-icon rule (it has none),
+     but this button is real and clickable in this build (data-action=
+     "close-detail"), so it needs one; round-4 cursor audit. */
+  cursor: pointer;
+}
+
+
+
+.panel-label {
+  color: var(--_color-variables---text-muted);
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: 1.2em;
+  font-weight: 500;
+  line-height: 1.2em;
+}
+
+.settings-content {
+  grid-row-gap: 2em;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.settings-section {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+}
+
+.settings-section-header {
+  grid-column-gap: 4px;
+  border-bottom: 1px solid var(--_color-variables---border-strong);
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding-top: .25em;
+  padding-bottom: .25em;
+  text-decoration: none;
+  display: flex;
+}
+
+.settings-header-label {
+  /* Literal hardcodes #426598 here, which happens to be the light-theme
+     value of --text-sim (see the [data-theme=light] block) — swapped for
+     the variable per Tobias's note so this label follows the dark theme
+     like every other --text-sim-colored label already does. */
+  color: var(--_color-variables---text-sim);
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 100%;
+  text-decoration: none;
+}
+
+.settings-section-row {
+  border-bottom: 1px solid var(--_color-variables---border-color);
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 3em;
+  padding: .5em;
+  text-decoration: none;
+  display: flex;
+}
+
+.settings-section-row.input {
+  border-bottom-style: none;
+  height: 4em;
+}
+
+/* ---------- Project Details panel label icon (literal, copy-and-paste.css
+   ~4630) — this class was never ported before, which is why the
+   .settings-sidebar-item icon rendered unsized/broken (round-4 report). ---------- */
+.icon {
+  grid-column-gap: 10px;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  width: 18px;
+  height: 18px;
+  padding-left: 2px;
+  padding-right: 2px;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ---------- Project Settings panel (Appearance / Connectors / Account) ----------
+   Literal, copy-and-paste.html/css — the second .settings-wrapper variant
+   (w-variant-39440413), a sibling of the Project Details settings-wrapper
+   and sharing all of its base panel/sidebar CSS above. Enabled for this
+   demo (round 4): Appearance's Light/Dark/Device buttons genuinely switch
+   the page's color variables (see the :root[data-theme] block below, both
+   palettes literal — light from copy-and-paste.css's un-overridden :root,
+   dark from what this whole rebuild already uses, which is copy-and-paste's
+   .body override block). Connectors/Account stay static display, exactly
+   like literal (neither has any interactive affordance in the capture). */
+.settings-sidebar-icon {
+  justify-content: center;
+  align-items: center;
+  width: 1.2em;
+  display: flex;
+}
+
+.settings-section.row {
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.appearance-toggle-selector {
+  grid-column-gap: .5em;
+  flex: 0 auto;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.settings-btn {
+  grid-column-gap: .5em;
+  border: 1px solid var(--_color-variables---border-color);
+  background-color: var(--_color-variables---surface-wash);
+  height: 2.4em;
+  color: var(--_color-variables---text-sim);
+  border-radius: .25em;
+  justify-content: center;
+  align-items: center;
+  padding-left: 1em;
+  padding-right: 1em;
+  text-decoration: none;
+  display: flex;
+  overflow: hidden;
+  /* cursor added — not part of literal's own .settings-btn rule, but these
+     are real, wired theme buttons in this build; round-4 cursor audit. */
+  cursor: pointer;
+}
+
+.settings-btn.active {
+  background-color: var(--_color-variables---dexter);
+  color: var(--_color-variables---white);
+  border-style: none;
+}
+
+.btn-icon {
+  justify-content: center;
+  align-items: center;
+  width: 1.2em;
+  display: flex;
+}
+
+.btn-label {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Kantumruy Pro, sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.connector-label {
+  grid-column-gap: 8px;
+  flex: 0 auto;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.rectangle-6 {
+  object-fit: cover;
+}
+
+.section-row-label {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.info-label {
+  color: var(--_color-variables---text-muted);
+}
+
+/* ---------- Theme switching (Appearance: Light / Dark / Device) ----------
+   My own addition — the toggle/mechanism itself isn't literal (Webflow
+   never wired functional theme switching in the static export; the capture
+   just shows "Light" marked .active while every visible color is actually
+   the dark palette below, hardcoded via .body's own variable overrides).
+   Both palettes are literal values, though: "dark" is exactly what the
+   :root block above already uses (ported from copy-and-paste.css's .body
+   override), and "light" below is copied from copy-and-paste.css's own
+   un-overridden :root block, which the live page never actually shows but
+   is real, captured CSS. Round 4 originally defaulted this to dark
+   (data-theme unset) since that's what the rebuild had looked like since
+   round 1; round 11 switches the default to light instead, per Tobias's
+   explicit request (state.theme now starts 'light' in js/app.js) — which
+   also happens to line up with the literal capture's own Settings panel,
+   where "Light" is the option shown marked .active. */
+/* This build's rules reference these variables under two different naming
+   schemes interchangeably (--text-muted in some rules, the literal
+   --_color-variables---text-muted in others — both already defined with the
+   same dark values up in :root) — so both have to be overridden here for
+   every rule to actually pick up the light palette. */
+:root[data-theme="light"] {
+  --text-muted: #6b84a8;
+  --_color-variables---text-muted: #6b84a8;
+  --text: #10233f;
+  --_color-variables---text: #10233f;
+  --text-sim: #426598;
+  --_color-variables---text-sim: #426598;
+  --border-color: #145aaa24;
+  --_color-variables---border-color: #145aaa24;
+  --surface-wash: #145aaa0d;
+  --_color-variables---surface-wash: #145aaa0d;
+  --border-error: #d9483a59;
+  --_color-variables---border-error: #d9483a59;
+  --surface-error: #d9483a29;
+  --_color-variables---surface-error: #d9483a29;
+  --error: #d9483a;
+  --_color-variables---error: #d9483a;
+  --base: #eaf3fb;
+  --_color-variables---base: #eaf3fb;
+  --hover-fill: #145aaa0f;
+  --_color-variables---hover-fill: #145aaa0f;
+  --border-coral: #d97b5359;
+  --_color-variables---border-coral: #d97b5359;
+  --surface-coral: #d97b5329;
+  --_color-variables---surface-coral: #d97b5329;
+  --coral: #d97b53;
+  --_color-variables---coral: #d97b53;
+  --border-blue: #167be159;
+  --_color-variables---border-blue: #167be159;
+  --surface-blue: #167be129;
+  --_color-variables---surface-blue: #167be129;
+  --blue: #167be1;
+  --_color-variables---blue: #167be1;
+  --border-pink: #c76a9159;
+  --_color-variables---border-pink: #c76a9159;
+  --surface-pink: #c76a9129;
+  --_color-variables---surface-pink: #c76a9129;
+  --pink: #c76a91;
+  --_color-variables---pink: #c76a91;
+  --fade-0: #ffffff59;
+  --_color-variables---fade-0: #ffffff59;
+  --fade-100: #eaf3fb00;
+  --_color-variables---fade-100: #eaf3fb00;
+  --hover-fill-strong: #145aaa1a;
+  --_color-variables---hover-fill-strong: #145aaa1a;
+  --dexter: #6248d4;
+  --_color-variables---dexter: #6248d4;
+  --scrim: #426598a6;
+  --_color-variables---scrim: #426598a6;
+  --active-fill: #145aaa29;
+  --_color-variables---active-fill: #145aaa29;
+  --surface-glass: #fff9;
+  --_color-variables---surface-glass: #fff9;
+  --shadow-color: #145aaa1f;
+  --_color-variables---shadow-color: #145aaa1f;
+  --white: #fff;
+  --_color-variables---white: #fff;
+  --border-strong: #145aaa47;
+  --_color-variables---border-strong: #145aaa47;
+  --attention: #c98226;
+  --_color-variables---attention: #c98226;
+  --active-fill-accent: #6248d429;
+  --_color-variables---active-fill-accent: #6248d429;
+  --dark: #10233f;
+  --_color-variables---dark: #10233f;
+  --success: #1a8f6f;
+  --_color-variables---success: #1a8f6f;
+  --scheduled: #1f7a8c;
+  --_color-variables---scheduled: #1f7a8c;
+  --tasks: #167be1;
+  --_color-variables---tasks: #167be1;
+  --glass: white;
+  --_color-variables---glass: white;
+  --border-glass: #145aaa1f;
+  --_color-variables---border-glass: #145aaa1f;
+  --border-success: #1a8f6f59;
+  --_color-variables---border-success: #1a8f6f59;
+  --border-accent: #6248d459;
+  --_color-variables---border-accent: #6248d459;
+  --border-attention: #c9822659;
+  --_color-variables---border-attention: #c9822659;
+  --border-ocean: #167be147;
+  --_color-variables---border-ocean: #167be147;
+  --surface-attention: #c9822624;
+  --_color-variables---surface-attention: #c9822624;
+  --surface-ocean: #167be12e;
+  --_color-variables---surface-ocean: #167be12e;
+  --surface-success: #1a8f6f29;
+  --_color-variables---surface-success: #1a8f6f29;
+  --active-fill-strong: #145aaa29;
+  --_color-variables---active-fill-strong: #145aaa29;
+  --scrollbar-thumb: #145aaa38;
+  --_color-variables---scrollbar-thumb: #145aaa38;
+  /* Same real connection-gate addition as the dark :root block above, light
+     values from the real root app's light palette. */
+  --red: #d9483a;
+  --on-accent: #ffffff;
+  --dexter-gradient: linear-gradient(90deg, #6248d4, #b39ddb);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="device"] {
+    --text-muted: #6b84a8;
+    --_color-variables---text-muted: #6b84a8;
+    --text: #10233f;
+    --_color-variables---text: #10233f;
+    --text-sim: #426598;
+    --_color-variables---text-sim: #426598;
+    --border-color: #145aaa24;
+    --_color-variables---border-color: #145aaa24;
+    --surface-wash: #145aaa0d;
+    --_color-variables---surface-wash: #145aaa0d;
+    --border-error: #d9483a59;
+    --_color-variables---border-error: #d9483a59;
+    --surface-error: #d9483a29;
+    --_color-variables---surface-error: #d9483a29;
+    --error: #d9483a;
+    --_color-variables---error: #d9483a;
+    --base: #eaf3fb;
+    --_color-variables---base: #eaf3fb;
+    --hover-fill: #145aaa0f;
+    --_color-variables---hover-fill: #145aaa0f;
+    --border-coral: #d97b5359;
+    --_color-variables---border-coral: #d97b5359;
+    --surface-coral: #d97b5329;
+    --_color-variables---surface-coral: #d97b5329;
+    --coral: #d97b53;
+    --_color-variables---coral: #d97b53;
+    --border-blue: #167be159;
+    --_color-variables---border-blue: #167be159;
+    --surface-blue: #167be129;
+    --_color-variables---surface-blue: #167be129;
+    --blue: #167be1;
+    --_color-variables---blue: #167be1;
+    --border-pink: #c76a9159;
+    --_color-variables---border-pink: #c76a9159;
+    --surface-pink: #c76a9129;
+    --_color-variables---surface-pink: #c76a9129;
+    --pink: #c76a91;
+    --_color-variables---pink: #c76a91;
+    --fade-0: #ffffff59;
+    --_color-variables---fade-0: #ffffff59;
+    --fade-100: #eaf3fb00;
+    --_color-variables---fade-100: #eaf3fb00;
+    --hover-fill-strong: #145aaa1a;
+    --_color-variables---hover-fill-strong: #145aaa1a;
+    --dexter: #6248d4;
+    --_color-variables---dexter: #6248d4;
+    --scrim: #426598a6;
+    --_color-variables---scrim: #426598a6;
+    --active-fill: #145aaa29;
+    --_color-variables---active-fill: #145aaa29;
+    --surface-glass: #fff9;
+    --_color-variables---surface-glass: #fff9;
+    --shadow-color: #145aaa1f;
+    --_color-variables---shadow-color: #145aaa1f;
+    --white: #fff;
+    --_color-variables---white: #fff;
+    --border-strong: #145aaa47;
+    --_color-variables---border-strong: #145aaa47;
+    --attention: #c98226;
+    --_color-variables---attention: #c98226;
+    --active-fill-accent: #6248d429;
+    --_color-variables---active-fill-accent: #6248d429;
+    --dark: #10233f;
+    --_color-variables---dark: #10233f;
+    --success: #1a8f6f;
+    --_color-variables---success: #1a8f6f;
+    --scheduled: #1f7a8c;
+    --_color-variables---scheduled: #1f7a8c;
+    --tasks: #167be1;
+    --_color-variables---tasks: #167be1;
+    --glass: white;
+    --_color-variables---glass: white;
+    --border-glass: #145aaa1f;
+    --_color-variables---border-glass: #145aaa1f;
+    --border-success: #1a8f6f59;
+    --_color-variables---border-success: #1a8f6f59;
+    --border-accent: #6248d459;
+    --_color-variables---border-accent: #6248d459;
+    --border-attention: #c9822659;
+    --_color-variables---border-attention: #c9822659;
+    --border-ocean: #167be147;
+    --_color-variables---border-ocean: #167be147;
+    --surface-attention: #c9822624;
+    --_color-variables---surface-attention: #c9822624;
+    --surface-ocean: #167be12e;
+    --_color-variables---surface-ocean: #167be12e;
+    --surface-success: #1a8f6f29;
+    --_color-variables---surface-success: #1a8f6f29;
+    --active-fill-strong: #145aaa29;
+    --_color-variables---active-fill-strong: #145aaa29;
+    --scrollbar-thumb: #145aaa38;
+    --_color-variables---scrollbar-thumb: #145aaa38;
+    /* Same real connection-gate addition, light values (device+light-system). */
+    --red: #d9483a;
+    --on-accent: #ffffff;
+    --dexter-gradient: linear-gradient(90deg, #6248d4, #b39ddb);
+  }
+}
+
+
+
+/* ---------- Scrollbars ---------- */
+* {
+   scrollbar-width: thin;
+   scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+::-webkit-scrollbar {
+   width: 8px;
+   height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+   background: var(--scrollbar-thumb);
+   border-radius: 8px;
+}
+
+/* ---------- Responsive breakpoints (literal: 991 / 767 / 479px) ----------
+   The previous single invented breakpoint (max-width:720px, sidebar shrunk
+   to icon rail) didn't match the real design at all. Replaced with the
+   three literal Webflow breakpoints and their actual rules below. */
+@media screen and (max-width: 991px) {
+   .milestone-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+   .title-label {
+    margin-left: 0;
+  }
+
+   .sidebar.project {
+    z-index: 3;
+    background-color: var(--_color-variables---base);
+    max-width: 20em;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+   .minimize-toggle.main {
+    display: flex;
+  }
+
+   .settings-popup {
+    left: auto;
+  }
+}
+
+@media screen and (max-width: 767px) {
+   .milestone-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+   .overlay {
+    padding: 0;
+  }
+
+   .detail-form {
+    border-radius: 0;
+    width: 100%;
+  }
+
+   .col-main {
+    width: auto;
+  }
+
+   .col-sub {
+    display: none;
+  }
+
+   .milestone-card.pinned {
+    background-image: linear-gradient(180deg, var(--_color-variables---fade-0), var(--_color-variables---fade-100));
+  }
+
+   .minimize-toggle:hover {
+    color: var(--_color-variables---text-muted);
+  }
+
+   .toolbar-row {
+    flex-flow: column;
+    align-items: flex-start;
+  }
+
+   .sort-wrapper {
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+   .sort-wrapper.files {
+    order: -9999;
+    align-self: stretch;
+  }
+
+   .pinned-wrapper {
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin-bottom: 1em;
+    display: flex;
+    /* grid-row-gap/row-gap: not part of the literal rule — added so more
+       than one pinned card can stack here with breathing room (round 5). */
+    grid-row-gap: 1em;
+    row-gap: 1em;
+  }
+}
+
+@media screen and (max-width: 479px) {
+   .milestone-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =====================================================================
+   INTERACTIONS — everything below this line is my own addition, not a
+   literal capture. Your rewrite above is the literal base; app.js's
+   screen switching, dropdowns, overlay, drag-and-drop, done-state,
+   approve/dismiss and grid/list toggle all still reference these
+   classes, so this section rebuilds the plumbing they need. Nothing
+   here touches or duplicates a literal rule above it.
+   ===================================================================== */
+
+/* ---------- Screen switching ----------
+   :not(.is-active) needs 3 classes' worth of specificity to beat
+   .container.timeline (2 classes) above — without it, an inactive
+   .container.timeline screen kept rendering at display:flex instead of
+   hiding, doubling up with whichever screen was actually active. */
+.container.screen:not(.is-active) {
+  display: none;
+}
+
+/* ---------- Dropdown menus (title dropdown, filter/sort, milestone picker) ----------
+   Literal's .option-wrapper has no display property at all (the capture
+   only ever shows one static state), so the closed state needs an
+   explicit default and .is-open needs to restore whichever display
+   value that particular wrapper actually uses. */
+.option-wrapper {
+  display: none;
+}
+
+.option-wrapper.is-open {
+  display: block;
+}
+
+.option-wrapper.detail.is-open {
+  display: flex;
+}
+
+/* ---------- Project settings popup ----------
+   Toggled via the DOM `hidden` property/attribute rather than a class,
+   so the override has to target [hidden] directly and win over the
+   literal `display: flex` base above. */
+.settings-popup[hidden] {
+  display: none;
+}
+
+/* ---------- Detail overlay (milestone / task panels) ----------
+   Also toggled via `hidden`. Your rewrite's literal base for .overlay is
+   now display:none (inverted from my previous file), so this shows it
+   only when the hidden attribute is absent. */
+.overlay:not([hidden]) {
+  display: flex;
+}
+
+/* ---------- Colour swatch selection ring ----------
+   Generalized from literal's one captured instance, .color.coral.active
+   (copy-and-paste.css) — the capture never shows blue/pink/none
+   selected, so this rule is broadened to any .color so the ring works
+   whichever swatch the user picks. */
+.color.active {
+  border-color: var(--_color-variables---dexter);
+}
+
+/* ---------- Tasklist row grid placement (Progress screen) ----------
+   Literal assigns per-instance placement via #w-node-<uuid> ID selectors
+   keyed to Webflow's own element IDs, which this hand-built markup can't
+   reproduce. align-self:stretch + grid-row:span 2 (no fixed column)
+   reproduces the same visual placement through the grid's own
+   auto-placement algorithm, and — unlike a hardcoded column — it keeps
+   working whether the row is a 2-column (milestone/plain) or 3-column
+   (.agent-approval) variant. */
+.tasklist-row-header {
+  align-self: stretch;
+}
+
+.marker {
+  grid-row: span 2;
+}
+
+.drag-options {
+  grid-row: span 2;
+}
+
+/* ---------- Row description (Progress screen) ----------
+   Shows a row's description under its title when "Show description in
+   tasklist" is toggled on in the task-detail overlay. No literal capture
+   of this state exists — it's a real feature we're wiring up per your
+   approval, not a static visual from the source. */
+.header-label-col {
+  flex-direction: column;
+  row-gap: .25em;
+  display: flex;
+}
+
+.row-description-inline {
+  color: var(--_color-variables---text-muted);
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: Nunito Sans, sans-serif;
+  font-size: .8em;
+  line-height: 1.3em;
+}
+
+/* ---------- Task done state ----------
+   No literal "done" visual exists in the capture (Webflow's export is a
+   snapshot, not an interactive state), so this reuses the design
+   system's existing success colour and a strikethrough, consistent with
+   how completion is shown elsewhere in the app. */
+.tasklist-row.is-done .check-marker {
+  background-color: var(--_color-variables---success);
+  border-color: var(--_color-variables---success);
+}
+
+.tasklist-row.is-done .header-label {
+  color: var(--_color-variables---text-muted);
+  text-decoration: line-through;
+}
+
+.tasklist-row-grid.is-done .tasklist-row-header {
+  color: var(--_color-variables---text-muted);
+  text-decoration: line-through;
+}
+
+/* ---------- Drag-and-drop reordering (Progress screen) ----------
+   Not part of the literal capture — feedback classes toggled by app.js
+   while a tasklist row is being dragged. */
+.tasklist-row-grid[draggable="true"] {
+  cursor: grab;
+}
+
+.tasklist-row-grid.is-dragging {
+  opacity: .4;
+}
+
+.tasklist-row-grid.drag-over-top {
+  box-shadow: inset 0 2px 0 var(--_color-variables---dexter);
+}
+
+.tasklist-row-grid.drag-over-bottom {
+  box-shadow: inset 0 -2px 0 var(--_color-variables---dexter);
+}
+
+/* ---------- Grid / list view toggle (Progress screen) ----------
+   Not part of the literal capture — the source only ever shows the list
+   layout. This is a real, working custom feature (per your approval),
+   not an invented static style. */
+.tasklist.is-grid-view {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  column-gap: .75em;
+  row-gap: .75em;
+  border-top: none;
+  display: grid;
+}
+
+.tasklist.is-grid-view .tasklist-row-grid {
+  border: 1px solid var(--_color-variables---border-color);
+  border-radius: 8px;
+}
+
+/* ---------- Approve / dismiss resolved badge (agent-approval rows) ----------
+   Not part of the literal capture. app.js sets this inline to
+   display:inline-flex once a row is resolved, so the stylesheet only
+   needs to supply the hidden default plus the colour states; the
+   font/sizing intentionally match the row's own .tasklist-row-cta text
+   so the badge reads as part of the row rather than an inserted UI
+   chrome. */
+.resolved-badge {
+  color: var(--_color-variables---success);
+  align-items: center;
+  column-gap: .5em;
+  font-family: Kantumruy Pro, sans-serif;
+  font-size: .9em;
+  font-weight: 500;
+  display: none;
+}
+
+/* the badge's icon svg (ICON_CHECK for Approved, ICON_CLOSE for Dismissed —
+   js/app.js; round 5 fix, it was wrongly showing ICON_CHECK for both) has
+   no width/height of its own — without this it renders at the browser's
+   intrinsic SVG default size instead of sitting inline with the
+   "Approved"/"Dismissed" text */
+.resolved-badge svg {
+  flex: none;
+  width: 1em;
+  height: 1em;
+}
+
+.is-dismissed .resolved-badge {
+  color: var(--_color-variables---text-muted);
+}
+
+/* ---------- Connection gate + dev-mode banner (real root app components) ----------
+   Not part of demo's literal capture — demo has no server to be "connecting to."
+   Markup/behavior comes from old-root's connection-gate.js (byte-for-byte, unmodified)
+   and project.html's own #connection-gate/#dev-mode-banner block; this is the CSS
+   companion, adapted only to reuse this file's own --base/--text/--text-muted/
+   --attention tokens (plus the 3 new tokens added above) instead of the real root
+   app's differently-named ones. z-index 999/998 sits above every z-index already used
+   elsewhere in this file (highest found: 10, .search-wrapper-related), so the gate
+   still covers the chat popover/any open dropdown regardless of stacking context. */
+.connection-gate {
+    position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center;
+    background-color: var(--base); opacity: 1; visibility: visible; transition: opacity .3s ease;
+}
+.connection-gate-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.connection-gate-panel { display: flex; flex-direction: column; align-items: center; row-gap: .75rem; text-align: center; }
+.connection-gate-mark {
+    width: 2.5rem; height: 2.5rem; border-radius: .75rem; background: var(--dexter-gradient);
+    color: var(--on-accent); display: flex; align-items: center; justify-content: center; font-weight: 700;
+}
+.connection-gate-message { color: var(--text); font-size: .95rem; max-width: 20rem; }
+.connection-gate-unreachable .connection-gate-message { color: var(--red); }
+.connection-gate-dots { display: flex; column-gap: .2rem; }
+.connection-gate-dots span {
+    width: .35rem; height: .35rem; border-radius: 50%; background-color: var(--text-muted);
+    animation: dexter-gate-bounce 1s infinite ease-in-out;
+}
+.connection-gate-dots span:nth-child(2) { animation-delay: .15s; }
+.connection-gate-dots span:nth-child(3) { animation-delay: .3s; }
+@keyframes dexter-gate-bounce { 0%, 80%, 100% { transform: scale(0.6); opacity: .5; } 40% { transform: scale(1); opacity: 1; } }
+.dev-mode-banner {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 998; display: flex; align-items: center; justify-content: center;
+    column-gap: .5rem; padding: .5rem 1rem; background-color: var(--attention); color: var(--on-accent);
+    font-size: .85rem; font-weight: 600; text-align: center;
+}
+.dev-mode-banner-hidden { display: none; }
+
+/* ---------- Pass 2 additions (real Google Drive / real Hermes chat / real
+   Settings Connectors) ---------- */
+
+/* Real Google Drive: row icon images. Real Drive files carry their own
+   iconLink (a small PNG per mime type); demo's own file-row-icon never held
+   anything but an inline SVG glyph before, so there's no existing sizing
+   rule for an <img> inside it. */
+.file-row-icon img {
+  width: 1.1em;
+  height: 1.1em;
+  object-fit: contain;
+}
+
+/* Settings connector rows: real MCP URL display. New — demo's own
+   Connectors rows were label-only static markup with nothing to show a
+   real value in. Truncates instead of wrapping/pushing the Copy button
+   out of the row, since a real mcpUrl is long. */
+.connector-url {
+  flex: 1;
+  min-width: 0;
+  color: var(--_color-variables---text-muted);
+  font-family: Nunito Sans, sans-serif;
+  font-size: .85em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: .75em;
+}
+
+/* Shared status toast. New — neither demo nor Pass 1 had a toast/snackbar
+   component; the real app's own files.js/account-connections.js/
+   claude-connector.js each lean on one existing per-screen toast element
+   (#dash-toast etc.), none of which exist in this build. One small shared
+   element (#dexterToast) covers every Pass 2 surface that needs a brief
+   status message. Visual language borrows straight from .chat-popover's
+   own base+fade+border+shadow recipe below, for consistency with this
+   build's other invented popover-shaped elements. */
+.dexter-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 2em;
+  transform: translateX(-50%) translateY(.5em);
+  z-index: 7;
+  max-width: 26em;
+  background-color: var(--_color-variables---base);
+  background-image: linear-gradient(180deg, var(--_color-variables---fade-0), var(--_color-variables---fade-100));
+  border: 1px solid var(--_color-variables---border-strong);
+  box-shadow: 0 8px 16px 0 var(--_color-variables---shadow-color);
+  border-radius: .5em;
+  padding: .75em 1em;
+  color: var(--_color-variables---text);
+  font-family: Nunito Sans, sans-serif;
+  font-size: .85em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+}
+.dexter-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* Real Hermes chat panel. Not part of demo's literal capture (only the
+   floating trigger + a static popover shell existed before Pass 2 — see
+   the .chat-popover rule above). Reuses .user-label/.user-image/
+   .card-main-body/.text-input for visual consistency instead of inventing
+   a new component language; the bouncing "thinking" dots reuse the same
+   dexter-gate-bounce keyframe the connection-gate above already defines. */
+.chat-popover {
+  max-height: 28em;
+}
+.chat-messages {
+  flex: 1;
+  min-height: 6em;
+  max-height: 20em;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: .75em;
+  padding-right: .25em;
+}
+.chat-message-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: .25em;
+}
+.chat-message-group.user {
+  align-items: flex-end;
+}
+.chat-message {
+  max-width: 85%;
+  background-color: var(--_color-variables---surface-wash);
+  border: 1px solid var(--_color-variables---border-color);
+  border-radius: .75em;
+  padding: .5em .75em;
+  color: var(--_color-variables---text);
+  font-family: Nunito Sans, sans-serif;
+  font-size: .85em;
+  line-height: 1.4em;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.chat-message-group.user .chat-message {
+  background-color: var(--_color-variables---dexter);
+  color: var(--_color-variables---white);
+  border-color: transparent;
+}
+.chat-message.error {
+  background-color: var(--_color-variables---surface-error);
+  border-color: var(--_color-variables---border-error);
+  color: var(--_color-variables---error);
+}
+.chat-message.thinking {
+  display: flex;
+  align-items: center;
+  column-gap: .4em;
+  color: var(--_color-variables---text-muted);
+  font-style: italic;
+}
+.chat-time {
+  color: var(--_color-variables---text-muted);
+  font-size: .75em;
+  padding: 0 .25em;
+}
+.chat-typing-dots {
+  display: inline-flex;
+  column-gap: .2em;
+}
+.chat-typing-dots span {
+  width: .3rem;
+  height: .3rem;
+  border-radius: 50%;
+  background-color: var(--_color-variables---text-muted);
+  animation: dexter-gate-bounce 1s infinite ease-in-out;
+}
+.chat-typing-dots span:nth-child(2) { animation-delay: .15s; }
+.chat-typing-dots span:nth-child(3) { animation-delay: .3s; }
+.chat-disabled-message {
+  color: var(--_color-variables---text-muted);
+  font-size: .85em;
+}
+.chat-input-row {
+  display: flex;
+  align-items: center;
+  column-gap: .5em;
+}
+.chat-input-row .text-input.chat-input {
+  flex: 1;
+  height: 2.6em;
+  font-size: .85em;
+}
+.chat-input-row .text-input.chat-input:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.chat-send {
+  flex: none;
+  width: 2.4em;
+  height: 2.4em;
+  border-radius: 100%;
+  background-color: var(--_color-variables---dexter);
+  color: var(--_color-variables---white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.chat-send svg {
+  width: 1.1em;
+  height: 1.1em;
+}
+.chat-send:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* [hidden]-attribute fix: several classes above set an unconditional
+   `display` value, which per normal CSS cascade rules always beats the
+   browser's default UA rule `[hidden] { display: none }` regardless of
+   whether the hidden attribute is present. Pass 2's Settings > Connectors
+   toggles (claudeUrlRow/driveActionsRow/driveConnectBtn/driveDisconnectBtn)
+   rely on el.hidden, so restore real hidden behavior explicitly here,
+   matching the pattern already used elsewhere in this file for
+   .overlay:not([hidden]) / .chat-popover:not([hidden]) / .settings-popup[hidden]. */
+.approval-btn[hidden],
+.settings-section-row[hidden] {
+  display: none !important;
+}

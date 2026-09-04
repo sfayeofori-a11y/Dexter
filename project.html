@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dexter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/css/dexter-project.css">
+</head>
+<body>
+
+  <!-- Real root app components (byte-for-byte markup from old-root's project.html),
+       not part of demo's literal capture — demo has no server to connect to, so
+       nothing like this existed there. Backed by connection-gate.js/auth-guard.js,
+       included unmodified below. -->
+  <div id="connection-gate" class="connection-gate">
+    <div class="connection-gate-panel">
+      <div class="connection-gate-mark">D</div>
+      <p class="connection-gate-message">Connecting to Dexter…</p>
+      <div class="connection-gate-dots"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+  <div id="dev-mode-banner" class="dev-mode-banner dev-mode-banner-hidden">No server connection. No changes are reflected.</div>
+
+  <aside class="sidebar project">
+    <div class="sidebar-main">
+      <div class="return-minimize">
+        <div class="return-btn" data-action="back-home" title="Back to home">
+          <div class="return-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="m10 16l-4-4m0 0l4-4m-4 4h12"/></svg></div>
+          <div class="return-label">Back to home</div>
+        </div>
+        <div class="minimize-toggle side-bar" data-action="toggle-minimize" title="Collapse sidebar">
+          <svg viewBox="0 0 380 340" fill="none"><path d="M340 50C340 44.4772 335.523 40 330 40H160V300H330C335.523 300 340 295.523 340 290V50ZM40 290C40 295.523 44.4772 300 50 300H120V40H50C44.4772 40 40 44.4772 40 50V290ZM380 290C380 317.614 357.614 340 330 340H50C22.3858 340 0 317.614 0 290V50C0 22.3858 22.3858 0 50 0H330C357.614 0 380 22.3858 380 50V290Z" fill="currentColor"/></svg>
+        </div>
+      </div>
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-btn" data-view="timeline">
+          <div class="sidebar-icon"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 9a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0 8a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0 4V3m5.914 6.414l-.56-.56c-.06-.06-.09-.09-.116-.12a1 1 0 0 1-.235-.567C9 8.127 9 8.084 9 8s0-.126.003-.167a1 1 0 0 1 .235-.566c.026-.031.056-.06.116-.12l.56-.561c.29-.29.434-.434.617-.51C10.715 6 10.92 6 11.329 6H17c.943 0 1.414 0 1.707.293S19 7.057 19 8s0 1.414-.293 1.707S17.943 10 17 10h-5.672c-.408 0-.613 0-.796-.076s-.329-.22-.618-.51m0 8l-.56-.56c-.06-.06-.09-.09-.116-.12a1 1 0 0 1-.235-.567C9 16.127 9 16.084 9 16s0-.127.003-.167a1 1 0 0 1 .235-.566c.026-.031.056-.06.116-.12l.56-.561c.29-.29.434-.434.617-.51c.184-.076.389-.076.797-.076H19c.943 0 1.414 0 1.707.293S21 15.057 21 16s0 1.414-.293 1.707S19.943 18 19 18h-7.672c-.408 0-.613 0-.796-.076s-.329-.22-.618-.51"/></svg></div>
+          <div class="sidebar-label">Timeline</div>
+        </div>
+        <div class="sidebar-btn" data-view="progress">
+          <div class="sidebar-icon"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M10 20.777a9 9 0 0 1-2.48-.969M14 3.223a9.003 9.003 0 0 1 0 17.554m-9.421-3.684a9 9 0 0 1-1.227-2.592M3.124 10.5c.16-.95.468-1.85.9-2.675l.169-.305m2.714-2.941A9 9 0 0 1 10 3.223"/></svg></div>
+          <div class="sidebar-label">Progress</div>
+        </div>
+        <div class="sidebar-btn" data-view="files">
+          <div class="sidebar-icon"><svg viewBox="0 0 22 22" fill="currentColor"><path d="M3.12746 17.1112L5.03718 11.0001H19.5282L17.6184 17.1112H3.12746ZM10.4111 18.9446H17.6222C18.4243 18.9446 19.1347 18.4251 19.3716 17.6574L21.2813 11.5463C21.6518 10.3661 20.7695 9.16678 19.532 9.16678H5.041C4.23892 9.16678 3.5285 9.68622 3.29169 10.4539L2.46669 13.0779V5.50011C2.46669 5.164 2.74169 4.889 3.07781 4.889H8.37537C8.50905 4.889 8.6351 4.93101 8.74204 5.01122L10.2087 6.11122C10.7358 6.50844 11.3813 6.72233 12.042 6.72233H16.5222C16.8584 6.72233 17.1334 6.99733 17.1334 7.33344H18.9667C18.9667 5.98518 17.8705 4.889 16.5222 4.889H12.042C11.7785 4.889 11.5188 4.80497 11.3087 4.64455L9.84204 3.54455C9.41808 3.22754 8.90628 3.05566 8.37537 3.05566H3.07781C1.72954 3.05566 0.633362 4.15184 0.633362 5.50011V16.5001C0.633362 17.8484 1.72954 18.9446 3.07781 18.9446H10.4111Z"/></svg></div>
+          <div class="sidebar-label">Files</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-bar-popup-trigger">
+      <div class="settings-popup" id="settingsPopup" hidden>
+        <div class="sidebar-btn popup-1" data-action="open-settings">
+          <div class="sidebar-icon"><svg viewBox="0 0 24 25" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.9992 8.7743C9.88118 8.7743 8.16419 10.4913 8.16419 12.6093C8.16419 14.7273 9.88118 16.4443 11.9992 16.4443C14.1172 16.4443 15.8342 14.7273 15.8342 12.6093C15.8342 10.4913 14.1172 8.7743 11.9992 8.7743ZM9.66419 12.6093C9.66419 11.3197 10.7096 10.2743 11.9992 10.2743C13.2888 10.2743 14.3342 11.3197 14.3342 12.6093C14.3342 13.8989 13.2888 14.9443 11.9992 14.9443C10.7096 14.9443 9.66419 13.8989 9.66419 12.6093Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M2.5809 8.9224C1.96404 9.99083 2.33012 11.357 3.39854 11.9739C3.88777 12.2563 3.88776 12.9625 3.39856 13.2449C2.33013 13.8618 1.96407 15.2279 2.58092 16.2964L4.09692 18.9222C4.71391 19.9908 6.08044 20.3568 7.14896 19.7399C7.63844 19.4573 8.25011 19.8106 8.25011 20.3754C8.25011 21.6092 9.2503 22.6094 10.4841 22.6094H13.5165C14.7502 22.6094 15.7501 21.6091 15.7501 20.3756C15.7501 19.8108 16.3615 19.458 16.8503 19.7402C17.9185 20.357 19.2845 19.991 19.9012 18.9227L21.4176 16.2963C22.0344 15.2279 21.6684 13.8617 20.6 13.2449C20.1108 12.9624 20.1108 12.2563 20.6 11.9739C21.6684 11.3571 22.0345 9.99089 21.4176 8.92247L19.9012 6.29604C19.2845 5.2278 17.9185 4.86179 16.8503 5.47854C16.3615 5.76076 15.7501 5.40794 15.7501 4.84314C15.7501 3.60961 14.7502 2.60938 13.5165 2.60938H10.4841C9.2503 2.60938 8.25011 3.60957 8.25011 4.84337C8.25011 5.40822 7.63842 5.76152 7.14894 5.47892C6.08042 4.86201 4.71388 5.22797 4.09689 6.29663L2.5809 8.9224ZM4.14854 10.6748C3.79755 10.4722 3.6773 10.0234 3.87994 9.6724L5.39593 7.04663C5.59863 6.69554 6.04772 6.57518 6.39894 6.77796C7.88811 7.63773 9.75011 6.56327 9.75011 4.84337C9.75011 4.43799 10.0787 4.10937 10.4841 4.10937L13.5165 4.10937C13.9216 4.10937 14.2501 4.43788 14.2501 4.84314C14.2501 6.56227 16.1112 7.63733 17.6003 6.77758C17.9511 6.57504 18.3997 6.69524 18.6022 7.04604L20.1186 9.67247C20.3212 10.0234 20.201 10.4722 19.85 10.6749C18.3608 11.5346 18.3608 13.6841 19.85 14.5439C20.2009 14.7465 20.3212 15.1953 20.1186 15.5463L18.6022 18.1727C18.3996 18.5235 17.9511 18.6437 17.6003 18.4412C16.1112 17.5815 14.2501 18.6565 14.2501 20.3756C14.2501 20.7809 13.9216 21.1094 13.5165 21.1094H10.4841C10.0787 21.1094 9.75011 20.7808 9.75011 20.3754C9.75011 18.6555 7.88812 17.5811 6.39896 18.4408C6.04774 18.6436 5.59866 18.5232 5.39596 18.1722L3.87996 15.5464C3.67732 15.1954 3.79757 14.7466 4.14856 14.5439C5.63778 13.6841 5.63775 11.5346 4.14854 10.6748Z" fill="currentColor"/></svg></div>
+          <div class="sidebar-label">Settings</div>
+        </div>
+        <!-- Real root's own version of this popup has a second item here,
+             Sign Out (real-device _old_root_reference/project.html, the
+             "Account popup trigger" comment there) — demo's literal capture
+             removed it for the demo per Tobias's own prior instruction, but
+             the real site needs it back. Reuses the real id
+             (#settings-logout-btn) that auth-guard.js already binds a click
+             handler to (data.logout() + redirect) — no new JS needed here. -->
+        <div class="sidebar-btn popup-1" id="settings-logout-btn">
+          <div class="sidebar-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6q.425 0 .713.288T12 4t-.288.713T11 5H5v14h6q.425 0 .713.288T12 20t-.288.713T11 21zm12.175-8H10q-.425 0-.712-.288T9 12t.288-.712T10 11h7.175L15.3 9.125q-.275-.275-.275-.675t.275-.7t.7-.313t.725.288L20.3 11.3q.3.3.3.7t-.3.7l-3.575 3.575q-.3.3-.712.288t-.713-.313q-.275-.3-.262-.712t.287-.688z"/></svg></div>
+          <div class="sidebar-label">Sign out</div>
+        </div>
+      </div>
+      <div class="sidebar-btn popup-trigger" id="userPopupTrigger">
+        <div class="user-label">
+          <div class="user-image"><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path d="M19.727 20.447c-.455-1.276-1.46-2.403-2.857-3.207S13.761 16 12 16s-3.473.436-4.87 1.24s-2.402 1.931-2.857 3.207"/><circle cx="12" cy="8" r="4"/></g></svg></div>
+          <div class="sidebar-label">Admin</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="content">
+
+    <section class="container timeline screen is-active" data-screen="timeline">
+      <div class="main-header">
+        <div class="project-title selector" id="titleDropdownTrigger">
+          <div class="minimize-toggle main" data-action="toggle-minimize" title="Expand sidebar"><svg viewBox="0 0 380 340" fill="none"><path d="M340 50C340 44.4772 335.523 40 330 40H160V300H330C335.523 300 340 295.523 340 290V50ZM40 290C40 295.523 44.4772 300 50 300H120V40H50C44.4772 40 40 44.4772 40 50V290ZM380 290C380 317.614 357.614 340 330 340H50C22.3858 340 0 317.614 0 290V50C0 22.3858 22.3858 0 50 0H330C357.614 0 380 22.3858 380 50V290Z" fill="currentColor"/></svg></div>
+          <div class="title-label">
+            <div class="title-header">Project</div>
+            <div class="dropdown-wrapper title-dropdown">
+              <div class="dropdown-toggle preject-details" id="titleDropdownToggle">
+                <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 9.343L12 15L6.343 9.343"/></svg>
+              </div>
+              <div class="option-wrapper project" id="titleDropdownOptions">
+                <div class="dropdown-option" data-action="open-project-details">
+                  <div class="dropdown-icon"><svg viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="m9.5 14.5l-6-2.5V4l6-2.5zm-6.885-1.244A1 1 0 0 1 2 12.333V3.667a1 1 0 0 1 .615-.923L8.923.115A1.5 1.5 0 0 1 11 1.5V2h1.25c.966 0 1.75.783 1.75 1.75v8.5A1.75 1.75 0 0 1 12.25 14H11v.5a1.5 1.5 0 0 1-2.077 1.385zM11 12.5h1.25a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25H11z"/></svg></div>
+                  <div class="select-option">Project Details</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button add-new" data-action="add-discussion" title="New Discussion">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+      <div class="col-wrapper">
+        <div class="col-main" id="timelineMain"></div>
+        <div class="col-sub" id="timelineSub"></div>
+      </div>
+    </section>
+
+    <section class="container screen" data-screen="progress">
+      <div class="tasks-layout">
+        <div class="task-main-col">
+          <div class="main-header">
+            <div class="project-title selector" id="titleDropdownTriggerProgress">
+              <div class="minimize-toggle main" data-action="toggle-minimize" title="Expand sidebar"><svg viewBox="0 0 380 340" fill="none"><path d="M340 50C340 44.4772 335.523 40 330 40H160V300H330C335.523 300 340 295.523 340 290V50ZM40 290C40 295.523 44.4772 300 50 300H120V40H50C44.4772 40 40 44.4772 40 50V290ZM380 290C380 317.614 357.614 340 330 340H50C22.3858 340 0 317.614 0 290V50C0 22.3858 22.3858 0 50 0H330C357.614 0 380 22.3858 380 50V290Z" fill="currentColor"/></svg></div>
+              <div class="title-label">
+                <div class="title-header">Project</div>
+                <div class="dropdown-wrapper title-dropdown">
+                  <div class="dropdown-toggle preject-details" id="titleDropdownToggleProgress">
+                    <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 9.343L12 15L6.343 9.343"/></svg>
+                  </div>
+                  <div class="option-wrapper project" id="titleDropdownOptionsProgress">
+                    <div class="dropdown-option" data-action="open-project-details">
+                      <div class="dropdown-icon"><svg viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="m9.5 14.5l-6-2.5V4l6-2.5zm-6.885-1.244A1 1 0 0 1 2 12.333V3.667a1 1 0 0 1 .615-.923L8.923.115A1.5 1.5 0 0 1 11 1.5V2h1.25c.966 0 1.75.783 1.75 1.75v8.5A1.75 1.75 0 0 1 12.25 14H11v.5a1.5 1.5 0 0 1-2.077 1.385zM11 12.5h1.25a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25H11z"/></svg></div>
+                      <div class="select-option">Project Details</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="dropdown-wrapper" id="progressAddWrapper">
+              <div class="button add-new" data-action="toggle-add-menu" title="Add">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
+              <div class="option-wrapper" id="progressAddOptions">
+                <div class="dropdown-option" data-action="add-task">
+                  <div class="dropdown-icon"><svg viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M3 13.5a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .5-.5h9.25a.75.75 0 0 0 0-1.5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9.75a.75.75 0 0 0-1.5 0V13a.5.5 0 0 1-.5.5zm12.78-8.82a.75.75 0 0 0-1.06-1.06L9.162 9.177L7.289 7.241a.75.75 0 1 0-1.078 1.043l2.403 2.484a.75.75 0 0 0 1.07.01z"/></svg></div>
+                  <div class="select-option">Task</div>
+                </div>
+                <div class="dropdown-option last" data-action="add-milestone">
+                  <div class="dropdown-icon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="m12 18l-4.2 1.8q-1 .425-1.9-.162T5 17.975V5q0-.825.588-1.412T7 3h10q.825 0 1.413.588T19 5v12.975q0 1.075-.9 1.663t-1.9.162zm0-2.2l5 2.15V5H7v12.95zM12 5H7h10z"/></svg></div>
+                  <div class="select-option">Milestone</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="toolbar-row progress">
+            <div class="sort-wrapper">
+              <div class="filter-wrapper">
+                <div class="dropdown-label">Filter</div>
+                <div class="dropdown-wrapper" id="progressSortWrapper">
+                  <div class="dropdown-toggle" data-action="toggle-progress-sort">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M14 12v7.88c.04.3-.06.62-.29.83a.996.996 0 0 1-1.41 0l-2.01-2.01a.99.99 0 0 1-.29-.83V12h-.03L4.21 4.62a1 1 0 0 1 .17-1.4c.19-.14.4-.22.62-.22h14c.22 0 .43.08.62.22a1 1 0 0 1 .17 1.4L14.03 12z"/></svg>
+                  </div>
+                  <div class="option-wrapper" id="progressSortOptions">
+                    <div class="dropdown-header"><div class="select-option">Sort by</div></div>
+                    <div class="dropdown-option" data-action="set-progress-sort" data-sort="custom">
+                      <div class="dropdown-check-icon active"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                      <div class="select-option">None</div>
+                    </div>
+                    <div class="dropdown-option" data-action="set-progress-sort" data-sort="name">
+                      <div class="select-option">Name</div>
+                      <div class="dropdown-check-icon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                    </div>
+                    <div class="dropdown-option" data-action="set-progress-sort" data-sort="milestone">
+                      <div class="select-option">Milestone</div>
+                      <div class="dropdown-check-icon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                    </div>
+                    <div class="dropdown-option" data-action="set-progress-sort" data-sort="status">
+                      <div class="select-option">Status</div>
+                      <div class="dropdown-check-icon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                    </div>
+                    <div class="dropdown-header"><div class="select-option">Group by</div></div>
+                    <div class="dropdown-option" data-action="set-progress-group" data-group="none">
+                      <div class="select-option">None</div>
+                      <div class="dropdown-check-icon active"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                    </div>
+                    <div class="dropdown-option" data-action="set-progress-group" data-group="milestone">
+                      <div class="select-option">Milestone</div>
+                      <div class="dropdown-check-icon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                    </div>
+                    <div class="dropdown-option last" data-action="set-progress-group" data-group="status">
+                      <div class="select-option">Status</div>
+                      <div class="dropdown-check-icon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="view-toggle" id="progressViewToggle">
+                <div class="toggle-option active" data-view-mode="list"><svg viewBox="0 0 512 512"><path fill="currentColor" d="M48 144a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM48 464a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM96 256a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"/></svg></div>
+                <div class="toggle-option" data-view-mode="grid"><svg viewBox="0 0 448 512"><path fill="currentColor" d="M384 96l0 128-128 0 0-128 128 0zm0 192l0 128-128 0 0-128 128 0zM192 224l-128 0 0-128 128 0 0 128zM64 288l128 0 0 128-128 0 0-128zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z"/></svg></div>
+                <div class="block-slider"></div>
+              </div>
+            </div>
+          </div>
+          <div class="milestone-grid" id="milestoneGrid"></div>
+          <div class="tasklist" id="progressTasklist"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container files screen" data-screen="files">
+      <div class="file-main-col">
+        <div class="main-header">
+          <div class="project-title selector">
+            <div class="minimize-toggle main" data-action="toggle-minimize" title="Expand sidebar"><svg viewBox="0 0 380 340" fill="none"><path d="M340 50C340 44.4772 335.523 40 330 40H160V300H330C335.523 300 340 295.523 340 290V50ZM40 290C40 295.523 44.4772 300 50 300H120V40H50C44.4772 40 40 44.4772 40 50V290ZM380 290C380 317.614 357.614 340 330 340H50C22.3858 340 0 317.614 0 290V50C0 22.3858 22.3858 0 50 0H330C357.614 0 380 22.3858 380 50V290Z" fill="currentColor"/></svg></div>
+            <div class="title-label">
+              <div class="title-header">Project</div>
+              <div class="dropdown-wrapper title-dropdown">
+                <div class="dropdown-toggle preject-details" id="titleDropdownToggleFiles">
+                  <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 9.343L12 15L6.343 9.343"/></svg>
+                </div>
+                <div class="option-wrapper project" id="titleDropdownOptionsFiles">
+                  <div class="dropdown-option" data-action="open-project-details">
+                    <div class="dropdown-icon"><svg viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="m9.5 14.5l-6-2.5V4l6-2.5zm-6.885-1.244A1 1 0 0 1 2 12.333V3.667a1 1 0 0 1 .615-.923L8.923.115A1.5 1.5 0 0 1 11 1.5V2h1.25c.966 0 1.75.783 1.75 1.75v8.5A1.75 1.75 0 0 1 12.25 14H11v.5a1.5 1.5 0 0 1-2.077 1.385zM11 12.5h1.25a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25H11z"/></svg></div>
+                    <div class="select-option">Project Details</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="button-wrapper">
+            <!-- Pass 2: real Google Drive. Upload posts straight to the Drive API using
+                 the short-lived accessToken checkGoogleDriveStatus hands back (see
+                 dexter-app.js's uploadOneFileToDrive) — this hidden input is what
+                 [data-action="add-file-upload"] clicks through to. "New folder" has no
+                 real-Drive equivalent in old-root/files.js at all (grepped — no
+                 create-folder call anywhere in that file), so it's hidden once a real
+                 Drive folder is linked instead of faking a capability that doesn't
+                 exist server-side (see dexter-app.js's files-add-menu toggle handler). -->
+            <input type="file" id="filesUploadInput" multiple hidden>
+            <div class="dropdown-wrapper" id="filesAddWrapper">
+              <div class="button add-new" data-action="toggle-files-add-menu" title="Add">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
+              <div class="option-wrapper" id="filesAddOptions">
+                <div class="dropdown-option" data-action="add-file-upload">
+                  <div class="dropdown-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="select-option">Upload</div>
+                </div>
+                <div class="dropdown-option last" data-action="add-file-folder">
+                  <div class="dropdown-icon"><svg viewBox="0 0 48 48"><path fill="currentColor" d="M4 12.25A6.25 6.25 0 0 1 10.25 6h6.465a3.75 3.75 0 0 1 2.651 1.098l3.384 3.384l-5.152 5.152a1.25 1.25 0 0 1-.883.366H4zm0 6.25v16.25A6.25 6.25 0 0 0 10.25 41h27.5A6.25 6.25 0 0 0 44 34.75v-17.5A6.25 6.25 0 0 0 37.75 11H25.768l-6.402 6.402a3.75 3.75 0 0 1-2.651 1.098z"/></svg></div>
+                  <div class="select-option">New folder</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="toolbar-row">
+          <div class="breadcrumb-nav" id="breadcrumbNav"></div>
+          <div class="sort-wrapper files">
+            <div class="filter-wrapper">
+              <div class="dropdown-label">Filter</div>
+              <div class="dropdown-wrapper" id="filesSortWrapper">
+                <div class="dropdown-toggle" data-action="toggle-files-sort">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M14 12v7.88c.04.3-.06.62-.29.83a.996.996 0 0 1-1.41 0l-2.01-2.01a.99.99 0 0 1-.29-.83V12h-.03L4.21 4.62a1 1 0 0 1 .17-1.4c.19-.14.4-.22.62-.22h14c.22 0 .43.08.62.22a1 1 0 0 1 .17 1.4L14.03 12z"/></svg>
+                </div>
+                <div class="option-wrapper" id="filesSortOptions">
+                  <div class="dropdown-header"><div class="select-option">Sort by</div></div>
+                  <div class="dropdown-option" data-action="set-files-sort" data-sort="name">
+                    <div class="dropdown-check-icon active"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                    <div class="select-option">Name</div>
+                  </div>
+                  <div class="dropdown-option" data-action="set-files-sort" data-sort="size">
+                    <div class="select-option">Size</div>
+                    <div class="dropdown-check-icon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                  </div>
+                  <div class="dropdown-option" data-action="set-files-sort" data-sort="type">
+                    <div class="select-option">Type</div>
+                    <div class="dropdown-check-icon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                  </div>
+                  <div class="dropdown-option" data-action="set-files-sort" data-sort="modified">
+                    <div class="select-option">Date Modified</div>
+                    <div class="dropdown-check-icon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                  </div>
+                  <div class="dropdown-header"><div class="select-option">Group by</div></div>
+                  <div class="dropdown-option" data-action="set-files-group" data-group="none">
+                    <div class="select-option">None</div>
+                    <div class="dropdown-check-icon active"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                  </div>
+                  <div class="dropdown-option" data-action="set-files-group" data-group="type">
+                    <div class="select-option">Type</div>
+                    <div class="dropdown-check-icon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                  </div>
+                  <div class="dropdown-option last" data-action="set-files-group" data-group="modified">
+                    <div class="select-option">Date Modified</div>
+                    <div class="dropdown-check-icon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 1.414-1.414L10 15.586l9.293-9.293a1 1 0 0 1 1.414 0"/></svg></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="view-toggle">
+              <div class="toggle-option active"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M48 144a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM48 464a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM96 256a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"/></svg></div>
+              <div class="toggle-option" data-disabled="true" title="Not available in this demo"><svg viewBox="0 0 448 512" fill="currentColor"><path d="M384 96l0 128-128 0 0-128 128 0zm0 192l0 128-128 0 0-128 128 0zM192 224l-128 0 0-128 128 0 0 128zM64 288l128 0 0 128-128 0 0-128zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32z"/></svg></div>
+              <div class="block-slider"></div>
+            </div>
+          </div>
+        </div>
+        <div class="file-list" id="fileList"></div>
+        <div class="drive-cta-wrapper">
+          <div class="drive-cta connect-drive">
+            <h1 class="cta-heading">Connect Google Drive</h1>
+            <p class="paragraph">Google Drive is the only place your project's real files live — connect your account, then pick a folder for this project.</p>
+            <div class="cta-btn" data-action="drive-connect">
+              <div>Connect Drive</div>
+              <div class="cta-icon"><img width="16" height="16" alt="" src="https://cdn.prod.website-files.com/69754e24e121b472b5840637/6a8740b4121a8940f4119eb4_Rectangle-5.png" class="button-icon"></div>
+            </div>
+          </div>
+          <div class="drive-cta choose-folder">
+            <h1 class="cta-heading">Choose a Drive folder</h1>
+            <p class="paragraph">Pick the Google Drive folder Dexter should show here — you can change it any time.</p>
+            <div class="cta-btn" data-action="drive-choose-folder">
+              <div>Choose folder</div>
+              <div class="cta-icon"><svg viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M28 6h14v14m0 9.474V39a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h9m7.8 16.2L41.1 6.9"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="overlay" id="detailOverlay" hidden>
+    <div class="slot" id="detailSlot"></div>
+  </div>
+
+  <div class="overlay" id="confirmOverlay" hidden>
+    <div class="confirm-popup">
+      <div class="confirm-popup-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/></svg>
+      </div>
+      <h3 class="confirm-popup-title">Delete milestone?</h3>
+      <!-- Copy adapted from demo's own (demo said tasks would be deleted with the
+           milestone). The REAL server behavior (old-root tasks.js deletePhase,
+           ~line 4364) does NOT delete a milestone's tasks — it un-parents them
+           (parentId -> null), same as a task that was never assigned one. Keeping
+           demo's original "will also remove all tasks" wording here would be a
+           false warning against what this build actually does, so the copy is
+           corrected to match real behavior; the confirm-then-delete UI/markup
+           pattern itself is unchanged. -->
+      <p class="confirm-popup-body">Deleting <strong id="confirmPopupName">this milestone</strong> will unassign it from any tasks linked to it. This can't be undone.</p>
+      <div class="confirm-popup-actions">
+        <button class="approval-btn" type="button" data-action="cancel-delete-milestone">Cancel</button>
+        <button class="approval-btn danger" type="button" data-action="confirm-delete-milestone">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pass 2: shared status toast — new, neither demo nor Pass 1 had a toast/
+       snackbar component. Real files.js/account-connections.js/claude-connector.js
+       each lean on a per-screen toast element (#dash-toast etc.) that doesn't exist
+       in this build; one small shared element covers every Pass 2 surface that
+       needs a brief status message (Drive picker/upload/link/disconnect results,
+       Copy confirmations). See dexter-app.js's showDexterToast. -->
+  <div class="dexter-toast" id="dexterToast"></div>
+
+  <!-- Pass 2: real Hermes chat (PROJECT_DATA.submitChatMessage/awaitJob/
+       fetchTranscript) replaces the old open/close-only stub. Trigger/popover
+       open-close mechanism (click toggles [hidden]) is demo's own, unchanged. -->
+  <button class="chat-trigger" type="button" id="chatTrigger" title="Chat with Dexter">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 844.41 717.39" width="100%" fill="currentColor">
+      <path d="M483.77,279.08c-.92,53.94-81.16,53.92-82.07,0,.24-53.67,81.84-53.67,82.07,0Z"/>
+      <path d="M553.63,700.22c-128.37,45.47-264.31-2.54-357.61-107.15-3.43-3.85-9.04-4.84-13.57-2.38-66.22,35.84-144.47-8.41-172.15-84.74-45.26-120.03,67.52-226.52,166.8-153.15,4.61,3.4,5.89,9.75,2.94,14.66-1.34,2.22-2.75,4.56-4.12,6.85-3.36,5.58-10.79,7.09-16.03,3.22-79.39-58.57-155.57,30.35-121.36,118.26,21.42,68.52,111.22,109.09,154.77,45.55,3.78-5.51,11.51-6.49,16.51-2.06,1.98,1.76,4,3.55,5.91,5.24,4.21,3.73,4.98,10.04,1.73,14.64-.04.05-.07.1-.11.15-2.92,4.12-2.65,9.74.67,13.56,78.95,90.99,209.74,142.21,325.45,99.15,275.38-107.12,225.28-525.5-16.92-643.53-5.47-2.67-7.78-9.23-5.17-14.72,1.17-2.45,2.38-5,3.54-7.43,2.59-5.43,9.03-7.8,14.53-5.36,268.3,118.85,304.27,606.54,14.2,699.27Z"/>
+      <path d="M161.62,489.15c-.31.63-.63,1.26-.96,1.88-3.57,6.65-12.45,8.18-18.15,3.24-.07-.06-.14-.12-.2-.18-4.25-3.69-5.24-9.8-2.56-14.75,7.44-13.72,2.33-33.95-8.36-45.13-3.75-3.92-4.52-9.8-1.72-14.44.08-.13.15-.25.23-.38,4.06-6.75,13.41-7.68,18.83-1.96,17.38,18.33,24.37,50.71,12.89,71.72Z"/>
+      <path d="M689.04,330.32c-16.29,63.17-116.81,55.08-132.12-5.3-1.76-6.94,3.09-13.83,10.21-14.66.1-.01.21-.02.31-.04,5.93-.69,11.35,3.14,12.94,8.89,10.36,37.62,74.87,43.98,85.33,5.01,1.54-5.72,7.02-9.45,12.89-8.77.09.01.18.02.27.03,7.18.84,11.98,7.83,10.17,14.83Z"/>
+      <path d="M844.41,249.66c-.92,53.94-81.16,53.93-82.07,0,.92-53.94,81.16-53.93,82.07,0Z"/>
+    </svg>
+  </button>
+  <div class="chat-popover" id="chatPopover" hidden>
+    <div class="user-label"><div class="user-image"></div><div class="user-name">Dexter</div></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <p class="card-main-body chat-disabled-message" id="chatDisabledMessage" hidden>Chat isn't available right now — Dexter can't reach the coordination server.</p>
+    <div class="chat-input-row">
+      <input type="text" class="text-input chat-input" id="chatInput" placeholder="Ask Dexter…" maxlength="4000">
+      <button type="button" class="chat-send" id="chatSend" title="Send">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="assets/js/project-data.js" defer></script>
+  <script src="assets/js/auth-guard.js" defer></script>
+  <script src="assets/js/connection-gate.js" defer></script>
+  <script src="https://apis.google.com/js/api.js" defer></script>
+  <script src="assets/js/dexter-app.js" defer></script>
+</body>
+</html>

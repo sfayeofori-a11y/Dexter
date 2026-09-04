@@ -1,0 +1,10 @@
+{
+  "name": "dexter-hermes-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local coordination server between the Dexter dashboard and Hermes. See docs/hermes-api-spec.md.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  }
+}
